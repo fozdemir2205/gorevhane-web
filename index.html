@@ -3,206 +3,283 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#6b3fd4">
+<meta name="theme-color" content="#1d3a99">
 <title>Görevhane</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%236b3fd4'/%3E%3Cpath d='M6 12.5l4 4 8-9' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 fill=%27%231d3a99%27/%3E%3Ccircle cx=%2712%27 cy=%2712%27 r=%277.5%27 stroke=%27white%27 stroke-width=%272%27 fill=%27none%27/%3E%3Cpath d=%27M8.5 12.3l2.4 2.4 4.6-5%27 stroke=%27white%27 stroke-width=%272.2%27 fill=%27none%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Courier+Prime:wght@400;700&family=Caveat:wght@600&display=swap">
 <style>
-/* Görevhane — açık tema; mor ana renk, turuncu vurgu */
+/* Görevhane — Evrak Defteri: form kağıdı zemin, kaşe mavisi şerit, tarihli kaşe ve imza. Yalnızca açık tema. */
 :root {
-  --bg: #f7f5fc; --surface: #ffffff; --fg: #1c1530; --muted: #6b6380; --line: #e6e0f2;
-  --accent: #6b3fd4; --accent-hover: #5a32b8; --accent-soft: #efe8fc;
-  --orange: #ff7a1a; --orange-hover: #f06a0a;
-  --ok: #1f9d63; --ok-ink: #17834f; --ok-soft: #e3f5ec;
-  --bad: #e0364a; --bad-ink: #c42537; --bad-soft: #fde7ea;
-  --warn: #c2540a; --warn-soft: #fff0e4;
-  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  --ground: #e9efec; --sheet: #ffffff; --row: #f4f7f5;
+  --ink: #1b2733; --muted: #55626d; --grid: #c5d1cb; --grid-2: #dde5e1;
+  --shell: #1d3a99; --shell-hover: #2a4bb8; --shell-ink: #ffffff; --shell-muted: #cbd6ff;
+  --stamp: #2346b5; --stamp-soft: #e6ecfb;
+  --red: #c42f2b; --red-soft: #fbe9e7;
+  --amber: #9a5200; --amber-soft: #fdf0dc;
+  --ui: 'Libre Franklin', 'Segoe UI', system-ui, sans-serif;
+  --num: 'Courier Prime', 'Courier New', ui-monospace, monospace;
+  --sign: 'Caveat', 'Segoe Script', cursive;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14.5px; line-height: 1.5; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-h1, h2 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
-h1 { font-size: 24px; } h2 { font-size: 18px; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+body { background: var(--ground); color: var(--ink); font-family: var(--ui); font-size: 14.5px; line-height: 1.5; caret-color: var(--stamp); }
+::selection { background: var(--stamp-soft); color: var(--ink); }
+* { scrollbar-color: var(--grid) transparent; scrollbar-width: thin; }
+a { color: var(--stamp); text-underline-offset: 3px; }
+h1, h2 { font-family: var(--ui); line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -.015em; }
+h1 { font-size: 30px; font-weight: 800; }
+h2 { font-size: 17px; font-weight: 800; letter-spacing: -.005em; }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 2px; }
 button { font: inherit; cursor: pointer; }
 input, textarea, select { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
+.n { font-family: var(--num); font-variant-numeric: tabular-nums; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; padding: 8px 14px; font-weight: 600; font-size: 13.5px; border: 1px solid transparent; background: var(--accent); color: #fff; white-space: nowrap; }
-.btn:hover:not(:disabled) { background: var(--accent-hover); }
+/* Düğmeler: keskin köşe, kaşe mavisi */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; font-weight: 700; font-size: 14px; border: 1px solid var(--stamp); background: var(--stamp); color: #fff; white-space: nowrap; transition: background-color .15s; }
+.btn:hover:not(:disabled) { background: #1b3a99; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
-.btn.ghost { background: var(--surface); color: var(--fg); border-color: var(--line); }
-.btn.ghost:hover:not(:disabled) { background: var(--accent-soft); }
-.btn.cta { background: var(--orange); color: var(--fg); }
-.btn.cta:hover:not(:disabled) { background: var(--orange-hover); }
-.btn.ok { background: var(--ok); } .btn.ok:hover:not(:disabled) { background: var(--ok-ink); }
-.btn.danger { background: var(--surface); color: var(--bad-ink); border-color: var(--bad-soft); }
-.btn.danger:hover:not(:disabled) { background: var(--bad-soft); }
+.btn.ghost { background: var(--sheet); color: var(--ink); border-color: var(--grid); }
+.btn.ghost:hover:not(:disabled) { background: var(--row); border-color: var(--muted); }
+.btn.cta, .btn.ok { background: var(--stamp); border-color: var(--stamp); color: #fff; }
+.btn.danger { background: var(--sheet); color: var(--red); border-color: var(--red); }
+.btn.danger:hover:not(:disabled) { background: var(--red-soft); }
 .btn.sm { padding: 5px 10px; font-size: 12.5px; }
 .btn.block { width: 100%; }
-.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); font-weight: 600; }
-.linkbtn:disabled { color: var(--muted); cursor: default; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--stamp); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn:disabled { color: var(--muted); cursor: default; text-decoration: none; }
 
+/* Form alanları */
 .field { display: grid; gap: 5px; margin-bottom: 14px; }
-.field > label { font-size: 12.5px; font-weight: 600; }
-.input, .textarea, .select { width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 14px; }
-.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.input.err { border-color: var(--bad); }
-.textarea { resize: vertical; min-height: 90px; }
-.hint { font-size: 12px; color: var(--muted); }
-.hint.err { color: var(--bad-ink); } .hint.ok { color: var(--ok-ink); }
-.alert { border-radius: 8px; padding: 10px 12px; font-size: 13.5px; margin-bottom: 14px; }
-.alert.err { background: var(--bad-soft); color: var(--bad-ink); }
-.alert.ok { background: var(--ok-soft); color: var(--ok-ink); }
-.alert.warn { background: var(--warn-soft); color: var(--warn); }
-.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-.meter i { height: 4px; border-radius: 2px; background: var(--line); }
-.meter i.on { background: var(--ok); }
-.checks { list-style: none; margin: 4px 0 0; padding: 0; font-size: 12px; display: grid; gap: 2px; }
-.checks li { color: var(--muted); } .checks li.ok { color: var(--ok-ink); }
+.field > label { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.input, .textarea, .select { width: 100%; background: var(--sheet); border: 1px solid var(--grid); border-radius: 0; padding: 10px 12px; font-size: 14.5px; }
+.input:hover, .textarea:hover, .select:hover { border-color: var(--muted); }
+.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--stamp); box-shadow: 0 0 0 3px var(--stamp-soft); }
+.input.err { border-color: var(--red); }
+.input::placeholder, .textarea::placeholder { color: #6b7782; }
+.textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+.hint { font-size: 12.5px; color: var(--muted); }
+.hint.err { color: var(--red); } .hint.ok, .hint .ok { color: var(--stamp); }
+.alert { padding: 10px 12px; font-size: 13.5px; margin-bottom: 14px; border: 1px solid; }
+.alert.err { background: var(--red-soft); color: var(--red); border-color: #efc2bd; }
+.alert.ok { background: var(--stamp-soft); color: var(--stamp); border-color: #c4d0f3; }
+.alert.warn { background: var(--amber-soft); color: var(--amber); border-color: #f0d3a8; }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 2px; }
+.meter i { height: 4px; background: var(--grid-2); }
+.meter i.on { background: var(--stamp); }
+.checks { list-style: none; margin: 4px 0 0; padding: 0; font-size: 12.5px; display: grid; gap: 2px; }
+.checks li { color: var(--muted); } .checks li.ok { color: var(--stamp); }
 .row-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .spacer { flex: 1; }
 
+/* Logo: kaşe halkası içinde onay işareti */
+.logo { font-weight: 800; font-size: 20px; letter-spacing: -.01em; display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.logo .mk { width: 28px; height: 28px; border: 2px solid currentColor; border-radius: 50%; display: grid; place-items: center; transform: rotate(-8deg); flex: none; }
+
+/* Giriş ekranları: kaşe mavisi başlık şeridi olan form tabakası */
 .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
-.auth-card { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; box-shadow: 0 18px 40px -28px rgba(60, 30, 130, .45); }
-.auth-card h1 { margin: 14px 0 4px; }
-.auth-card .sub { color: var(--muted); margin: 0 0 18px; font-size: 13.5px; }
-.auth-foot { margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center; }
-.steps { display: flex; gap: 8px; margin-bottom: 16px; font-size: 12px; }
-.steps span { flex: 1; padding: 6px 8px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); text-align: center; }
-.steps span.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
-.steps span.past { color: var(--ok-ink); border-color: var(--ok); background: var(--ok-soft); }
+.auth-card { width: 100%; max-width: 440px; background: var(--sheet); border: 1px solid var(--grid); padding: 0 28px 26px; box-shadow: 0 18px 40px -30px rgba(27, 39, 51, .5); }
+.auth-card > .logo:first-child { display: flex; margin: 0 -28px 22px; padding: 16px 28px; background: var(--shell); color: var(--shell-ink); }
+.auth-card h1 { margin: 0 0 4px; font-size: 26px; }
+.auth-card .sub { color: var(--muted); margin: 0 0 18px; font-size: 14px; }
+.auth-foot { margin-top: 18px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.steps { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 18px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--grid); }
+.steps span { padding: 7px 10px; color: var(--muted); text-align: center; }
+.steps span + span { border-left: 1px solid var(--grid); }
+.steps span.on { background: var(--stamp-soft); color: var(--stamp); }
+.steps span.past { color: var(--stamp); }
 .code { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 12px 0 6px; }
-.code input { width: 100%; min-width: 0; padding: 0; aspect-ratio: 1 / 1.15; text-align: center; font-family: var(--font-mono); font-size: 22px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--surface); }
-.code input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.code-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.code input { width: 100%; min-width: 0; padding: 0; aspect-ratio: 1 / 1.15; text-align: center; font-family: var(--num); font-size: 24px; font-weight: 700; border: 1px solid var(--grid); border-radius: 0; background: var(--sheet); }
+.code input:focus { outline: none; border-color: var(--stamp); box-shadow: 0 0 0 3px var(--stamp-soft); }
+.code-meta { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
 
-.logo { font-family: var(--font-display); font-weight: 700; font-size: 18px; display: inline-flex; align-items: center; gap: 8px; color: var(--fg); }
-.logo:hover { text-decoration: none; }
-.logo .mk { width: 24px; height: 24px; border-radius: 7px; background: var(--accent); display: grid; place-items: center; }
-
-.top { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
-.top-in { max-width: 1040px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.nav { display: flex; gap: 18px; font-size: 13.5px; }
-.nav a { color: var(--muted); padding: 4px 0; border-bottom: 2px solid transparent; }
-.nav a:hover { text-decoration: none; color: var(--fg); }
-.nav a.active { color: var(--fg); font-weight: 600; border-color: var(--accent); }
-.iconbtn { position: relative; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); display: grid; place-items: center; background: var(--surface); color: var(--fg); }
-.iconbtn:hover { background: var(--accent-soft); }
-.badge { position: absolute; top: -6px; right: -6px; background: var(--bad); color: #fff; font-size: 10.5px; font-weight: 600; border-radius: 999px; padding: 0 5px; line-height: 17px; min-width: 17px; text-align: center; }
-.av { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 600; font-size: 12px; flex: none; border: 0; }
-.av.sm { width: 24px; height: 24px; font-size: 10px; }
+/* Uygulama kabuğu: solda kaşe mavisi şerit */
+.shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+.side { position: sticky; top: 0; height: 100vh; background: var(--shell); color: var(--shell-ink); padding: 22px 16px 18px; display: flex; flex-direction: column; gap: 26px; }
+.side nav { display: flex; flex-direction: column; gap: 2px; }
+.side nav a { padding: 9px 12px; font-weight: 600; font-size: 14.5px; color: var(--shell-muted); text-decoration: none; }
+.side nav a:hover { background: var(--shell-hover); color: #fff; }
+.side nav a.active { background: var(--sheet); color: var(--shell); }
+.side .foot { margin-top: auto; display: grid; gap: 10px; }
+.sidebtn { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: 1px solid rgba(255, 255, 255, .28); color: #fff; padding: 9px 12px; font-weight: 600; text-align: left; position: relative; }
+.sidebtn:hover { background: var(--shell-hover); }
+.badge { margin-left: auto; background: #fff; color: var(--shell); font-family: var(--num); font-size: 12px; font-weight: 700; padding: 0 6px; line-height: 18px; min-width: 18px; text-align: center; }
+.me { border-top: 1px solid rgba(255, 255, 255, .25); padding-top: 12px; font-size: 13px; color: var(--shell-muted); overflow-wrap: anywhere; }
+.me b { display: block; color: #fff; font-size: 14px; }
+.me .role { display: inline-block; margin-top: 4px; border: 1px solid var(--shell-muted); padding: 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+.me .linkbtn { color: #fff; margin-top: 8px; display: block; }
 .menu-wrap { position: relative; }
-.menu { position: absolute; right: 0; top: calc(100% + 8px); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 40px -20px rgba(60, 30, 130, .4); min-width: 220px; z-index: 30; overflow: hidden; }
-.menu .mi { display: block; width: 100%; text-align: left; padding: 10px 14px; background: none; border: 0; color: var(--fg); font-size: 13.5px; }
-.menu .mi:hover { background: var(--accent-soft); }
-.menu .mh { padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+.menu { position: absolute; left: calc(100% + 10px); bottom: 0; background: var(--sheet); color: var(--ink); border: 1px solid var(--grid); box-shadow: 0 18px 40px -20px rgba(27, 39, 51, .45); z-index: 30; }
 .notif-panel { width: min(380px, calc(100vw - 32px)); max-height: 70vh; overflow: auto; }
-.notif { display: grid; grid-template-columns: 8px 1fr; gap: 10px; padding: 11px 14px; border: 0; border-bottom: 1px solid var(--line); background: none; width: 100%; text-align: left; color: var(--fg); }
-.notif:hover { background: var(--bg); }
-.notif .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
-.notif.unread .dot { background: var(--orange); }
+.menu .mh { padding: 11px 14px; border-bottom: 1px solid var(--grid-2); font-size: 13px; color: var(--muted); }
+.notif { display: grid; grid-template-columns: 8px 1fr; gap: 10px; padding: 11px 14px; border: 0; border-bottom: 1px solid var(--grid-2); background: none; width: 100%; text-align: left; color: var(--ink); }
+.notif:hover { background: var(--row); }
+.notif .dot { width: 8px; height: 8px; margin-top: 6px; }
+.notif.unread .dot { background: var(--stamp); }
 .notif .ex { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.notif .when { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+.notif .when { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; font-family: var(--num); }
 
-.page { max-width: 1040px; margin: 0 auto; padding: 22px 16px 60px; }
-.page-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-.search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0 11px; color: var(--muted); }
-.search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.search input { border: 0; outline: 0; background: none; padding: 9px 0; width: 100%; color: var(--fg); }
-.grp { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; display: flex; justify-content: space-between; align-items: center; }
-.grp button { background: none; border: 0; padding: 0; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; }
-.empty { text-align: center; color: var(--muted); padding: 36px 16px; background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; }
+/* Sayfa */
+.page { padding: 28px 36px 60px; min-width: 0; max-width: 1240px; }
+.page-head { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.page-head p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.search { display: flex; align-items: center; gap: 8px; background: var(--sheet); border: 1px solid var(--grid); padding: 0 12px; color: var(--muted); width: 320px; max-width: 100%; }
+.search:focus-within { border-color: var(--stamp); box-shadow: 0 0 0 3px var(--stamp-soft); }
+.search input { border: 0; outline: 0; background: none; padding: 10px 0; width: 100%; color: var(--ink); }
+.tabs { display: flex; gap: 26px; border-bottom: 1px solid var(--grid); margin-bottom: 16px; flex-wrap: wrap; }
+.tabs button { background: none; border: 0; padding: 0 0 10px; font-weight: 600; font-size: 14.5px; color: var(--muted); }
+.tabs button.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.tabs button .n { font-size: 13.5px; }
+.empty { text-align: center; color: var(--muted); padding: 36px 16px; }
 
-.trow { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; color: var(--fg); cursor: pointer; }
-.trow:hover { border-color: #cfc3ea; }
-.trow.late { border-left: 3px solid var(--bad); }
-.trow.done .tt { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
-.circ { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cfc6e3; background: var(--surface); padding: 0; margin-top: 1px; display: grid; place-items: center; }
-.circ:hover:not(:disabled) { border-color: var(--ok); background: var(--ok-soft); }
-.circ.done { background: var(--ok); border-color: var(--ok); }
-.circ:disabled { cursor: default; }
-.tt { font-weight: 600; overflow-wrap: anywhere; }
-.tm { color: var(--muted); font-size: 12.5px; margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
-.tr { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; font-size: 12.5px; white-space: nowrap; }
-.pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; display: inline-block; }
-.p-ACIL { background: var(--bad-soft); color: var(--bad-ink); }
-.p-YUKSEK { background: var(--warn-soft); color: var(--warn); }
-.p-ORTA { background: var(--accent-soft); color: var(--accent); }
-.p-DUSUK { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
-.s-OPEN { background: var(--accent-soft); color: var(--accent); }
-.s-DONE { background: var(--ok-soft); color: var(--ok-ink); }
-.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
-.tag i { width: 7px; height: 7px; border-radius: 50%; display: block; }
-.late-txt { color: var(--bad-ink); font-weight: 600; }
+/* Kayıt tablosu: form ızgarası */
+.sheet { background: var(--sheet); border: 1px solid var(--grid); }
+.rec { display: grid; grid-template-columns: 112px 88px minmax(0, 1fr) 150px 120px 158px; border-top: 1px solid var(--grid-2); min-height: 72px; align-items: stretch; cursor: pointer; }
+.rec:hover { background: var(--row); }
+.rec > div { padding: 10px 14px; border-left: 1px solid var(--grid-2); display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.rec > div:first-child { border-left: 0; }
+.rec.h { min-height: 38px; border-top: 0; background: var(--row); cursor: default; }
+.rec.h > div { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding-top: 0; padding-bottom: 0; }
+.no { font-family: var(--num); font-weight: 700; font-size: 14px; }
+.dt { font-family: var(--num); font-size: 13.5px; color: var(--muted); }
+.tt { font-weight: 600; font-size: 15.5px; line-height: 1.3; overflow-wrap: anywhere; }
+.tm { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.who { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.who b { color: var(--ink); font-weight: 600; }
+.due { font-family: var(--num); font-size: 13.5px; }
+.due.late { color: var(--red); font-weight: 700; }
+.st { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; color: var(--muted); }
+.stampbtn { margin: 8px 4px 4px; align-self: flex-start; display: inline-flex; align-items: center; min-height: 38px; padding: 7px 10px; background: var(--sheet); color: var(--stamp); border: 2px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 2px; border-radius: 5px; transform: rotate(-3deg); font-weight: 800; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; transition: background-color .15s, transform .15s; }
+.stampbtn:hover { background: var(--stamp-soft); transform: rotate(-3deg) scale(1.04); }
+.stampbtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.recent { margin-top: 26px; }
+.recent h2 { margin-bottom: 12px; }
+.recent-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rc { background: var(--sheet); border: 1px solid var(--grid); padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto auto 1fr; gap: 4px 14px; align-items: start; color: var(--ink); text-decoration: none; }
+.rc:hover { border-color: var(--muted); }
+.rc .no { grid-column: 1 / -1; font-size: 12.5px; color: var(--muted); }
+.rc .tt { grid-column: 1 / -1; }
+.rc p { grid-column: 1 / -1; margin: 2px 0 6px; font-size: 13.5px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rc .sign { font-size: 26px; }
+.rc > .sig, .rc > .stamp { grid-row: 4; align-self: end; }
+.rc .dt { font-size: 12.5px; }
+.rec.done .tt { color: var(--muted); }
+.more { border-top: 1px solid var(--grid-2); padding: 10px; text-align: center; }
 
-.detail { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
-.card h2 { margin-bottom: 12px; }
-.desc { white-space: pre-wrap; overflow-wrap: anywhere; margin: 10px 0 14px; }
-.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 13px; margin: 0; }
-.kv dt { color: var(--muted); } .kv dd { margin: 0; font-weight: 500; }
-.done-note { background: var(--ok-soft); border-radius: 8px; padding: 10px 12px; margin: 14px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.done-note b { display: block; font-size: 12px; color: var(--ok-ink); margin-bottom: 2px; }
-.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.tl li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 9px; font-size: 13px; }
-.tl .who { font-weight: 600; }
-.tl .when { color: var(--muted); font-size: 11.5px; }
-.quote { display: block; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; margin-top: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
-.quote.ok { background: var(--ok-soft); border-color: transparent; }
-.quote.bad { background: var(--bad-soft); border-color: transparent; }
-.mention { color: var(--accent); font-weight: 600; }
-.composer { position: relative; margin-top: 14px; }
-.suggest { position: absolute; left: 0; bottom: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 28px -16px rgba(60, 30, 130, .4); min-width: 200px; overflow: hidden; z-index: 5; }
-.suggest button { display: flex; gap: 8px; align-items: center; width: 100%; padding: 8px 10px; background: none; border: 0; text-align: left; color: var(--fg); }
-.suggest button.on, .suggest button:hover { background: var(--accent-soft); }
+/* Kaşeler */
+.stamp { display: inline-flex; flex-direction: column; align-items: center; width: max-content; border: 2px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 2px; border-radius: 6px; color: var(--stamp); padding: 3px 9px; transform: rotate(-7deg); font-weight: 800; font-size: 12px; letter-spacing: .1em; line-height: 1.25; }
+.stamp small { font-family: var(--num); font-size: 11.5px; letter-spacing: .02em; font-weight: 700; }
+.stamp.lg { font-size: 15px; padding: 5px 12px; }
+.stamp.lg small { font-size: 13px; }
+.stamp.press { animation: press .42s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes press { from { transform: scale(1.7) rotate(-15deg); opacity: 0; filter: blur(2px); } 70% { opacity: 1; filter: blur(0); } to { transform: scale(1) rotate(-7deg); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .stamp.press { animation: none; } }
+.acil { display: inline-block; width: max-content; border: 2px solid var(--red); color: var(--red); font-weight: 800; font-size: 11px; letter-spacing: .14em; padding: 0 6px; transform: rotate(-3deg); margin-bottom: 5px; }
+.pri { font-weight: 700; }
+.pri.YUKSEK { color: var(--amber); }
+.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 1px 8px; border: 1px solid var(--grid); background: var(--sheet); color: var(--ink); }
+.tag i { width: 8px; height: 8px; display: block; border-radius: 50%; }
+.late-txt { color: var(--red); font-weight: 700; }
+.sign { font-family: var(--sign); font-size: 30px; font-weight: 600; color: var(--stamp); line-height: 1; }
 
-.backdrop { position: fixed; inset: 0; background: rgba(43, 25, 90, .42); display: grid; place-items: center; padding: 16px; z-index: 50; }
-.modal { background: var(--surface); border-radius: 14px; padding: 20px; width: 100%; max-width: 480px; max-height: calc(100vh - 32px); overflow: auto; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .45); }
-.modal h2 { margin-bottom: 4px; }
-.modal .sub { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
-.counter { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; }
+/* Kayıt detayı */
+.detail { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.card { background: var(--sheet); border: 1px solid var(--grid); padding: 22px; }
+.card h2 { margin-bottom: 14px; }
+.rec-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.desc { white-space: pre-wrap; overflow-wrap: anywhere; margin: 12px 0 18px; font-size: 15px; }
+.kv { display: grid; grid-template-columns: 130px 1fr; margin: 0; border-top: 1px solid var(--grid-2); }
+.kv dt, .kv dd { padding: 8px 0; border-bottom: 1px solid var(--grid-2); font-size: 13.5px; margin: 0; }
+.kv dt { color: var(--muted); font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding-top: 10px; }
+.kv dd { font-weight: 500; overflow-wrap: anywhere; }
+.closing { margin-top: 18px; border: 1px dashed var(--grid); padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: end; }
+.closing .lbl { grid-column: 1 / -1; font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.closing p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
+.tl { list-style: none; margin: 0; padding: 0; }
+.tl li { padding: 10px 0; border-bottom: 1px solid var(--grid-2); font-size: 13.5px; }
+.tl li:first-child { padding-top: 0; }
+.tl .when { font-family: var(--num); font-size: 12.5px; color: var(--muted); display: block; margin-bottom: 2px; }
+.tl .who { color: var(--ink); font-weight: 700; font-size: 13.5px; }
+.quote { display: block; background: var(--row); border: 1px solid var(--grid-2); padding: 8px 10px; margin-top: 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.quote.ok { background: var(--stamp-soft); border-color: #c4d0f3; }
+.quote.bad { background: var(--red-soft); border-color: #efc2bd; }
+.mention { color: var(--stamp); font-weight: 700; }
+.composer { position: relative; margin-top: 16px; }
+.suggest { position: absolute; left: 0; bottom: calc(100% + 4px); background: var(--sheet); border: 1px solid var(--grid); box-shadow: 0 12px 28px -16px rgba(27, 39, 51, .4); min-width: 200px; z-index: 5; }
+.suggest button { display: block; width: 100%; padding: 8px 12px; background: none; border: 0; text-align: left; color: var(--ink); font-weight: 600; }
+.suggest button.on, .suggest button:hover { background: var(--stamp-soft); }
+.av { display: none; }
+
+/* Pencereler */
+.backdrop { position: fixed; inset: 0; background: rgba(27, 39, 51, .45); display: grid; place-items: center; padding: 16px; z-index: 50; }
+.modal { background: var(--sheet); border-top: 6px solid var(--shell); padding: 22px; width: 100%; max-width: 500px; max-height: calc(100vh - 32px); overflow: auto; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .45); }
+.modal h2 { margin-bottom: 6px; font-size: 20px; }
+.modal .sub { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+.counter { display: flex; justify-content: space-between; font-size: 12.5px; margin-top: 5px; }
 .tagpick { display: flex; flex-wrap: wrap; gap: 6px; }
-.tagpick button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 3px 10px; font-size: 12.5px; display: inline-flex; gap: 6px; align-items: center; color: var(--fg); }
-.tagpick button.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.tagpick button { border: 1px solid var(--grid); background: var(--sheet); padding: 4px 10px; font-size: 13px; display: inline-flex; gap: 6px; align-items: center; color: var(--ink); }
+.tagpick button.on { background: var(--stamp-soft); border-color: var(--stamp); color: var(--stamp); font-weight: 700; }
 .tagpick i { width: 8px; height: 8px; border-radius: 50%; display: block; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
-.stat .k { font-size: 12px; color: var(--muted); }
-.stat .v { font-family: var(--font-display); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; margin-top: 4px; }
-.stat.bad .v { color: var(--bad-ink); } .stat.ok .v { color: var(--ok-ink); }
-.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 4px; }
-.legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+/* Rapor: form alanı kutuları olarak döküm */
+.ledger { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--sheet); border: 1px solid var(--grid); margin-bottom: 18px; }
+.ledger > div { padding: 14px 18px; border-left: 1px solid var(--grid-2); }
+.ledger > div:first-child { border-left: 0; }
+.ledger .k { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ledger .v { font-family: var(--num); font-size: 30px; font-weight: 700; line-height: 1.15; margin-top: 6px; }
+.ledger .v.bad { color: var(--red); }
+.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.chartbox { width: 100%; }
+.legend { display: flex; gap: 16px; font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 6px; }
 
-.tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.tabs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--fg); }
-.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-.tbl-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-table.tbl { border-collapse: collapse; width: 100%; font-size: 13.5px; }
-.tbl th, .tbl td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-.tbl th { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+/* Admin tabloları */
+.tbl-wrap { overflow-x: auto; background: var(--sheet); border: 1px solid var(--grid); }
+table.tbl { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tbl th, .tbl td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--grid-2); vertical-align: middle; }
+.tbl th { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: var(--row); }
 .tbl tr:last-child td { border-bottom: 0; }
-.num { font-variant-numeric: tabular-nums; }
+.num { font-family: var(--num); font-variant-numeric: tabular-nums; }
+.pill { font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 1px 7px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+.pill.s-OPEN { color: var(--stamp); }
+.pill.s-DONE { color: var(--muted); }
+.pill.p-ACIL { color: var(--red); }
 
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--fg); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13.5px; z-index: 60; box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .5); max-width: calc(100vw - 32px); }
-.toast.err { background: var(--bad-ink); }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 18px; font-size: 14px; z-index: 60; box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .5); max-width: calc(100vw - 32px); }
+.toast.err { background: var(--red); }
 .center { display: grid; place-items: center; min-height: 50vh; color: var(--muted); }
 
-@media (max-width: 760px) {
-  .detail, .charts, .grid2 { grid-template-columns: minmax(0, 1fr); }
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .trow { grid-template-columns: 22px minmax(0, 1fr); }
-  .trow .tr { grid-column: 2; flex-direction: row; align-items: center; justify-content: flex-start; }
-  .nav { order: 3; width: 100%; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .side { position: sticky; z-index: 20; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 10px 16px; }
+  .side .logo { font-size: 18px; }
+  .side nav { flex-direction: row; order: 3; width: 100%; overflow-x: auto; }
+  .side nav a { padding: 6px 10px; }
+  .side .foot { margin: 0 0 0 auto; display: flex; align-items: center; gap: 8px; }
+  .sidebtn { width: auto; padding: 6px 10px; }
+  .sidebtn .lbl { display: none; }
+  .me { border: 0; padding: 0; } .me b, .me .role, .me .mail { display: none; }
+  .me .linkbtn { margin: 0; }
+  .menu { left: auto; right: 0; bottom: auto; top: calc(100% + 8px); }
+  .page { padding: 20px 16px 48px; }
+  .detail, .charts, .grid2, .recent-grid { grid-template-columns: minmax(0, 1fr); }
+  .ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ledger > div:nth-child(3) { border-left: 0; }
+  .ledger > div:nth-child(n+3) { border-top: 1px solid var(--grid-2); }
+  .search { width: 100%; }
+  .rec { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "no due" "konu konu" "who st"; }
+  .rec.h { display: none; }
+  .rec > div { border-left: 0; padding: 4px 14px; }
+  .rec > .c-no { grid-area: no; align-items: flex-start; padding-top: 12px; }
+  .rec > .c-open { display: none; }
+  .rec > .c-konu { grid-area: konu; }
+  .rec > .c-who { grid-area: who; padding-bottom: 12px; }
+  .rec > .c-due { grid-area: due; padding-top: 12px; align-items: flex-end; }
+  .rec > .c-st { grid-area: st; align-items: flex-end; padding-bottom: 12px; }
+  .kv { grid-template-columns: 110px 1fr; }
 }
 </style>
 </head>
@@ -237,7 +314,7 @@ const PASSWORD_RULES = [
 ];
 const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const TAG_COLORS = ['#6b3fd4', '#ff7a1a', '#1f9d63', '#e0367a', '#1f7ad6', '#c2540a', '#6b6380'];
+const TAG_COLORS = ['#2346b5', '#c42f2b', '#1f7a5c', '#9a5200', '#6b4fa0', '#3a7ca5', '#55626d'];
 
 /* =========================================================
    Küçük yardımcılar
@@ -258,6 +335,10 @@ function h(tag, props, ...kids) {
   return el;
 }
 const svg = (markup) => { const t = document.createElement('template'); t.innerHTML = markup.trim(); return t.content.firstChild; };
+const ICON_BACK = () => svg('<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="vertical-align:-2px"><path d="M12 7H2.5M6.5 3 2.5 7l4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="square"/></svg>');
+const ICON_X = () => svg('<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>');
+const ICON_OK = () => svg('<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true" style="vertical-align:-1px;margin-right:5px"><path d="M2 6.5 L5 9 L10 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>');
+const ICON_TODO = () => svg('<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true" style="vertical-align:-1px;margin-right:5px"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>');
 const ICON_CHECK = () => svg('<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 L5 9 L10 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 const ICON_BELL = () => svg('<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 11.5V7a4.5 4.5 0 0 1 9 0v4.5l1 1h-11z M6.5 14a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/></svg>');
 const ICON_SEARCH = () => svg('<svg width="15" height="15" viewBox="0 0 14 14" aria-hidden="true"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M9.5 9.5 L13 13" stroke="currentColor" stroke-width="1.5"/></svg>');
@@ -332,7 +413,14 @@ function toast(msg, kind) {
   setTimeout(() => t.remove(), 3500);
 }
 
-const logo = () => h('a', { class: 'logo', href: '#/' }, h('span', { class: 'mk' }, svg('<svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 L5 9 L10 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>')), 'Görevhane');
+const logo = () => h('a', { class: 'logo', href: '#/' }, h('span', { class: 'mk' }, svg('<svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 L5 9 L10 3" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>')), 'Görevhane');
+// Evrak dünyası biçimleri
+const evrakNo = (t) => `${new Date(t.created_at).getFullYear()}/${String(t.id).padStart(4, '0')}`;
+const dmy = (iso) => { const d = new Date(iso); return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`; };
+const dmyShort = (iso) => { const d = new Date(iso); return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${String(d.getFullYear()).slice(2)}`; };
+const dmHm = (iso) => { const d = new Date(iso); return `${pad(d.getDate())}.${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+// Tarihli kaşe; press=true ise basılma hareketiyle gelir
+const stampEl = (iso, opts = {}) => h('span', { class: `stamp${opts.lg ? ' lg' : ''}${opts.press ? ' press' : ''}`, 'aria-label': `Tamamlandı, ${dmy(iso)}` }, 'TAMAMLANDI', h('small', null, dmy(iso)));
 const avatar = (name, sm) => h('span', { class: `av${sm ? ' sm' : ''}`, 'aria-hidden': 'true' }, initials(name));
 const priorityPill = (p) => h('span', { class: `pill p-${p}` }, PRIORITY_LABELS[p]);
 const tagChip = (t) => h('span', { class: 'tag' }, h('i', { style: { background: t.color } }), t.name);
@@ -344,7 +432,7 @@ function richText(text) {
 
 function passwordRules(getValue) {
   const meter = h('div', { class: 'meter', 'aria-hidden': 'true' }, [0, 1, 2, 3].map(() => h('i')));
-  const list = h('ul', { class: 'checks' }, PASSWORD_RULES.map((r) => h('li', null, '○ ' + r.label)));
+  const list = h('ul', { class: 'checks' }, PASSWORD_RULES.map((r) => h('li', null, ICON_TODO(), r.label)));
   const update = () => {
     const v = getValue();
     let score = PASSWORD_RULES.filter((r) => r.test(v)).length + (v && (v.length >= 12 || /[^\p{L}\d]/u.test(v)) ? 1 : 0);
@@ -353,7 +441,7 @@ function passwordRules(getValue) {
     [...list.children].forEach((li, n) => {
       const ok = PASSWORD_RULES[n].test(v);
       li.className = ok ? 'ok' : '';
-      li.textContent = (ok ? '✓ ' : '○ ') + PASSWORD_RULES[n].label;
+      li.replaceChildren(ok ? ICON_OK() : ICON_TODO(), PASSWORD_RULES[n].label);
     });
   };
   return { el: h('div', null, meter, list), update };
@@ -502,7 +590,7 @@ function render() {
   } else {
     if (PUBLIC_ROUTES.includes(r.name)) return go('/');
     const page = h('main', { class: 'page' });
-    currentView = view = h('div', null, header(r.name), page);
+    currentView = view = h('div', { class: 'shell' }, header(r.name), page);
     let content;
     if (r.name === 'gorev' && r.id) content = taskDetailPage(Number(r.id));
     else if (r.name === 'rapor') content = reportPage();
@@ -565,8 +653,9 @@ function dropdown(button, buildMenu) {
   return wrap;
 }
 
+// Sol kaşe mavisi şerit: logo, menü, bildirimler, kullanıcı
 function header(active) {
-  const bell = h('button', { class: 'iconbtn', id: 'bell', 'aria-label': 'Bildirimler' }, ICON_BELL());
+  const bell = h('button', { class: 'sidebtn', id: 'bell', 'aria-label': 'Bildirimler' }, ICON_BELL(), h('span', { class: 'lbl' }, 'Bildirimler'));
   const notifMenu = dropdown(bell, (close) => {
     const readAll = async () => {
       await rpc('mark_notifications_read', { p_ids: null });
@@ -576,7 +665,7 @@ function header(active) {
       close();
     };
     return h('div', { class: 'menu notif-panel' },
-      h('div', { class: 'mh row-actions' }, h('b', { style: { color: 'var(--fg)' } }, 'Bildirimler'), h('span', { class: 'spacer' }),
+      h('div', { class: 'mh row-actions' }, h('b', { style: { color: 'var(--ink)' } }, 'Bildirimler'), h('span', { class: 'spacer' }),
         state.unread > 0 && h('button', { class: 'linkbtn', onclick: readAll }, 'Tümünü okundu say')),
       state.notifs.length === 0 && h('div', { class: 'mh' }, 'Henüz bildirimin yok. Biri senden bahsettiğinde veya takip ettiğin bir görev değiştiğinde burada görünür.'),
       state.notifs.map((n) => h('button', {
@@ -594,17 +683,16 @@ function header(active) {
       }, h('span', { class: 'dot' }), h('span', null, h('span', null, notificationText(n)),
         n.payload && n.payload.excerpt && h('span', { class: 'ex' }, n.payload.excerpt), h('span', { class: 'when' }, ago(n.created_at))))));
   });
-  const userMenu = dropdown(h('button', { class: 'av', 'aria-label': 'Hesap menüsü', style: { cursor: 'pointer' } }, initials(state.me.username)), () =>
-    h('div', { class: 'menu' },
-      h('div', { class: 'mh' }, h('b', { style: { color: 'var(--fg)' } }, '@' + state.me.username), h('br'), state.me.email,
-        state.me.role === 'ADMIN' && h('div', null, h('span', { class: 'pill s-OPEN', style: { marginTop: '4px' } }, 'Admin'))),
-      h('button', { class: 'mi', onclick: async () => { await sb.auth.signOut(); go('/giris'); } }, 'Çıkış yap')));
-  const el = h('header', { class: 'top' }, h('div', { class: 'top-in' }, logo(),
-    h('nav', { class: 'nav' },
-      h('a', { href: '#/', class: active === '' || active === 'gorev' ? 'active' : '' }, 'Görevler'),
+  const me = h('div', { class: 'me' },
+    h('b', null, '@' + state.me.username), h('span', { class: 'mail' }, state.me.email),
+    state.me.role === 'ADMIN' && h('div', null, h('span', { class: 'role' }, 'ADMIN')),
+    h('button', { class: 'linkbtn', onclick: async () => { await sb.auth.signOut(); go('/giris'); } }, 'Çıkış yap'));
+  const el = h('aside', { class: 'side' }, logo(),
+    h('nav', { 'aria-label': 'Ana menü' },
+      h('a', { href: '#/', class: active === '' || active === 'gorev' ? 'active' : '' }, 'Kayıtlar'),
       h('a', { href: '#/rapor', class: active === 'rapor' ? 'active' : '' }, 'Rapor'),
       state.me.role === 'ADMIN' && h('a', { href: '#/admin', class: active === 'admin' ? 'active' : '' }, 'Admin')),
-    h('span', { class: 'spacer' }), notifMenu, userMenu));
+    h('div', { class: 'foot' }, notifMenu, me));
   setTimeout(updateBell, 0);
   return el;
 }
@@ -749,7 +837,7 @@ function registerPage() {
     card.replaceChildren(
       logo(), h('h1', null, 'E-postanı kontrol et'),
       h('p', { class: 'sub' }, h('b', null, f.email), ' adresine 6 haneli bir kod gönderdik. Gelmediyse spam klasörüne bak.'),
-      h('div', { class: 'steps' }, h('span', { class: 'past' }, '✓ Bilgiler'), h('span', { class: 'on' }, '2 · E-posta onayı')),
+      h('div', { class: 'steps' }, h('span', { class: 'past' }, ICON_OK(), 'Bilgiler'), h('span', { class: 'on' }, '2 · E-posta onayı')),
       alert,
       h('form', {
         novalidate: true,
@@ -899,7 +987,7 @@ function newTaskModal() {
   const v = { title: '', description: '', priority: 'ORTA', dueAt: null, tagIds: [] };
   const f = taskForm(v);
   const alert = h('div', { class: 'alert err', hidden: true });
-  const btn = h('button', { class: 'btn cta' }, 'Görevi ekle');
+  const btn = h('button', { class: 'btn' }, 'Kaydı aç');
   let close;
   const form = h('form', {
     novalidate: true,
@@ -910,7 +998,7 @@ function newTaskModal() {
       try {
         const id = await rpc('create_task', { p_title: v.title, p_description: v.description, p_priority: v.priority, p_due_at: v.dueAt, p_tag_ids: v.tagIds });
         close();
-        toast('Görev eklendi.');
+        toast('Kayıt açıldı.');
         go('/gorev/' + id);
       } catch (err) {
         alert.textContent = errText(err);
@@ -919,7 +1007,7 @@ function newTaskModal() {
       }
     },
   }, alert, f.el, h('div', { class: 'row-actions', style: { justifyContent: 'flex-end' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => close() }, 'Vazgeç'), btn));
-  close = modal('Yeni görev', 'Görev herkese açık panoya eklenir; oluşturan olarak senin adın görünür.', form);
+  close = modal('Yeni kayıt aç', 'Kayıt ekibin ortak defterine eklenir; açan olarak senin adın yazılır.', form);
 }
 
 // Tamamlama ve yeniden açma: ikisinde de en az 10 karakter zorunlu
@@ -928,8 +1016,8 @@ function noteModal(kind, title, onSubmit) {
   let text = '';
   const alert = h('div', { class: 'alert err', hidden: true });
   const status = h('span', { class: 'hint err' }, `En az ${NOTE_MIN} karakter gerekli`);
-  const cnt = h('span', { class: 'hint', style: { fontFamily: 'var(--font-mono)' } }, `0 / ${NOTE_MIN}`);
-  const btn = h('button', { class: isComplete ? 'btn ok' : 'btn', disabled: true }, isComplete ? 'Tamamlandı olarak işaretle' : 'Yeniden aç');
+  const cnt = h('span', { class: 'hint n' }, `0 / ${NOTE_MIN}`);
+  const btn = h('button', { class: isComplete ? 'btn ok' : 'btn', disabled: true }, isComplete ? 'Kaşe bas ve kapat' : 'Yeniden aç');
   const ta = h('textarea', {
     id: 'note-text', class: 'textarea', maxlength: '2000', 'aria-describedby': 'note-count',
     placeholder: isComplete ? 'Örn. Sertifika yenilendi, tarayıcıda kontrol edildi.' : 'Örn. Sorun bugün tekrar başladı, müşteri bildirdi.',
@@ -958,20 +1046,20 @@ function noteModal(kind, title, onSubmit) {
         alert.textContent = errText(err);
         alert.hidden = false;
         btn.disabled = false;
-        btn.textContent = isComplete ? 'Tamamlandı olarak işaretle' : 'Yeniden aç';
+        btn.textContent = isComplete ? 'Kaşe bas ve kapat' : 'Yeniden aç';
       }
     },
   }, alert, ta, h('div', { class: 'counter', id: 'note-count' }, status, cnt),
   h('div', { class: 'row-actions', style: { justifyContent: 'flex-end', marginTop: '14px' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => close() }, 'Vazgeç'), btn));
-  close = modal(isComplete ? 'Görevi tamamla' : 'Görevi yeniden aç',
-    isComplete ? `"${title}" için ne yaptığını kısaca yaz. Bu açıklama görevde kalıcı olarak görünecek.` : `"${title}" neden yeniden açılıyor? Sebep geçmişte kalır ve takipçilere bildirilir.`, form);
+  close = modal(isComplete ? 'Kaydı kapat' : 'Kaydı yeniden aç',
+    isComplete ? `"${title}" için ne yaptığını yaz. Açıklama, imzan ve tarihli kaşeyle kayda kalıcı olarak düşülür.` : `"${title}" neden yeniden açılıyor? Sebep geçmişte kalır ve takipçilere bildirilir.`, form);
   setTimeout(() => ta.focus(), 0);
 }
 
 /* =========================================================
    Görev listesi
    ========================================================= */
-const TASK_LIST_SELECT = 'id,title,priority,due_at,status,created_at,updated_at,completed_at,' +
+const TASK_LIST_SELECT = 'id,title,priority,due_at,status,created_at,updated_at,completed_at,completion_note,' +
   'created_by:profiles!tasks_created_by_fkey(id,username),updated_by:profiles!tasks_updated_by_fkey(id,username),' +
   'completed_by:profiles!tasks_completed_by_fkey(id,username),task_tags(tags(id,name,color)),comments(count)';
 const escLike = (s) => s.replace(/[\\%_]/g, (c) => '\\' + c);
@@ -981,37 +1069,40 @@ function taskRow(t, onComplete) {
   const late = !done && isOverdue(t.due_at);
   const tags = (t.task_tags || []).map((x) => x.tags).filter(Boolean);
   const comments = (t.comments && t.comments[0] && t.comments[0].count) || 0;
-  const who = done
-    ? `@${t.completed_by ? t.completed_by.username : '?'} tamamladı · ${ago(t.completed_at)}`
-    : t.updated_by && t.updated_by.id !== t.created_by.id && t.updated_at !== t.created_at
-      ? `@${t.created_by.username} açtı · @${t.updated_by.username} düzenledi · ${ago(t.updated_at)}`
-      : `@${t.created_by.username} açtı · ${ago(t.created_at)}`;
+  const edited = t.updated_by && t.updated_by.id !== t.created_by.id && t.updated_at !== t.created_at;
+  const sub = [t.priority === 'ACIL' ? null : PRIORITY_LABELS[t.priority] + ' öncelik', ...tags.map((g) => g.name), comments ? `${comments} yorum` : null].filter(Boolean).join(' · ');
   const open = () => go('/gorev/' + t.id);
-  return h('div', { class: `trow${late ? ' late' : ''}${done ? ' done' : ''}`, role: 'link', tabindex: '0', onclick: open, onkeydown: (e) => e.key === 'Enter' && open() },
-    h('button', {
-      class: `circ${done ? ' done' : ''}`, disabled: done, title: done ? 'Tamamlandı' : 'Tamamla',
-      'aria-label': done ? 'Tamamlandı' : `"${t.title}" görevini tamamla`,
-      onclick: (e) => { e.stopPropagation(); onComplete && onComplete(t); },
-    }, done && ICON_CHECK()),
-    h('div', { style: { minWidth: '0' } }, h('div', { class: 'tt' }, t.title),
-      h('div', { class: 'tm' }, tags.map(tagChip), h('span', null, who), comments > 0 && h('span', null, `· ${comments} yorum`))),
-    h('div', { class: 'tr' }, priorityPill(t.priority),
-      !done && (t.due_at ? h('span', { class: late ? 'late-txt' : '' }, fmtDue(t.due_at) + (late ? ' · gecikti' : '')) : h('span', { class: 'hint' }, 'Tarih yok'))));
+  const press = state.justStamped === t.id;
+  if (press) state.justStamped = null;
+  return h('div', { class: `rec${done ? ' done' : ''}`, role: 'link', tabindex: '0', 'aria-label': `${evrakNo(t)} ${t.title}`, onclick: open, onkeydown: (e) => e.key === 'Enter' && e.target === e.currentTarget && open() },
+    h('div', { class: 'c-no' }, h('span', { class: 'no' }, evrakNo(t))),
+    h('div', { class: 'c-open' }, h('span', { class: 'dt' }, dmyShort(t.created_at))),
+    h('div', { class: 'c-konu' }, t.priority === 'ACIL' && h('span', { class: 'acil' }, 'ACİL'), h('div', { class: 'tt' }, t.title), sub && h('div', { class: 'tm' }, sub)),
+    h('div', { class: 'c-who who' }, done
+      ? [h('b', null, '@' + (t.completed_by ? t.completed_by.username : '?')), h('span', null, ' kapattı')]
+      : [h('b', null, '@' + t.created_by.username), edited && h('span', null, `@${t.updated_by.username} düzenledi`)]),
+    h('div', { class: 'c-due' }, done ? h('span', { class: 'dt' }, dmHm(t.completed_at)) : t.due_at ? [h('span', { class: `due${late ? ' late' : ''}` }, dmHm(t.due_at)), late && h('span', { class: 'late-txt', style: { fontSize: '12px' } }, 'gecikti')] : h('span', { class: 'dt' }, '—')),
+    h('div', { class: 'c-st' }, done ? stampEl(t.completed_at, { press }) : [h('span', { class: 'st' }, 'AÇIK'),
+      onComplete && h('button', { class: 'stampbtn', 'aria-label': `"${t.title}" kaydını kaşeleyip kapat`, onclick: (e) => { e.stopPropagation(); onComplete(t); } }, 'Kaşe bas')]));
 }
 
 function tasksPage() {
   let q = '';
-  let showDone = false;
-  let doneLimit = 20;
-  const openTitle = h('span', null, 'Açık · …');
-  const openList = h('div');
-  const doneBtn = h('button', { 'aria-expanded': 'false' }, '▸ Tamamlandı · …');
-  const doneState = h('span', null, 'katlanmış');
-  const doneList = h('div', { hidden: true });
+  let tab = 'OPEN';
+  let doneLimit = 30;
+  const counts = { OPEN: '…', DONE: '…' };
+  const tabs = h('div', { class: 'tabs', role: 'tablist' });
+  const list = h('div', { class: 'sheet' });
+  const recent = h('section', { class: 'recent', hidden: true, 'aria-label': 'Son kapanışlar' });
+  const drawTabs = () => tabs.replaceChildren(...[['OPEN', 'Açık'], ['DONE', 'Tamamlandı']].map(([k, l]) =>
+    h('button', { role: 'tab', 'aria-selected': String(tab === k), class: tab === k ? 'on' : '', onclick: () => { tab = k; drawTabs(); load(); } }, `${l} · `, h('span', { class: 'n' }, counts[k]))));
 
   const complete = (t) => noteModal('complete', t.title, async (note) => {
     await rpc('complete_task', { p_id: t.id, p_note: note });
-    toast('Görev tamamlandı.');
+    state.justStamped = t.id;
+    toast(`${evrakNo(t)} kaşelendi ve kapandı.`);
+    tab = 'DONE';
+    drawTabs();
     load();
   });
 
@@ -1022,32 +1113,36 @@ function tasksPage() {
       filter(sb.from('tasks').select(TASK_LIST_SELECT, { count: 'exact' }).eq('status', 'DONE').is('deleted_at', null)).order('completed_at', { ascending: false }).limit(doneLimit),
     ]);
     if (o.error || d.error) return toast(errText(o.error || d.error), 'err');
-    // Açık görevler: son tarihe göre (tarihsizler en sonda), sonra önceliğe, sonra yeniye göre
-    const open = o.data.sort((a, b) =>
-      (a.due_at ? new Date(a.due_at) : Infinity) - (b.due_at ? new Date(b.due_at) : Infinity) ||
-      PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || new Date(b.created_at) - new Date(a.created_at));
-    openTitle.textContent = `Açık · ${o.count}`;
-    openList.replaceChildren(...(open.length ? open.map((t) => taskRow(t, complete)) : [h('div', { class: 'empty' }, q ? `"${q}" ile eşleşen açık görev yok.` : 'Açık görev yok. "+ Yeni görev" ile ilk görevi ekle.')]));
-    doneBtn.textContent = `${showDone ? '▾' : '▸'} Tamamlandı · ${d.count}`;
-    doneList.replaceChildren(
-      ...(d.data.length ? d.data.map((t) => taskRow(t)) : [h('div', { class: 'empty' }, q ? 'Eşleşen tamamlanmış görev yok.' : 'Henüz tamamlanan görev yok.')]),
-      d.count > d.data.length ? h('button', { class: 'btn ghost block', onclick: () => { doneLimit += 20; load(); } }, `Daha fazla göster (${d.count - d.data.length} kaldı)`) : '');
+    counts.OPEN = o.count; counts.DONE = d.count;
+    drawTabs();
+    // Açık kayıtlar: son tarihe göre (tarihsizler en sonda), sonra önceliğe, sonra yeniye göre
+    const rows = tab === 'OPEN'
+      ? o.data.sort((a, b) => (a.due_at ? new Date(a.due_at) : Infinity) - (b.due_at ? new Date(b.due_at) : Infinity) ||
+          PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || new Date(b.created_at) - new Date(a.created_at))
+      : d.data;
+    const head = h('div', { class: 'rec h', 'aria-hidden': 'true' }, ['Evrak no', 'Açılış', 'Konu', tab === 'OPEN' ? 'Açan' : 'Kapatan', tab === 'OPEN' ? 'Son tarih' : 'Kapanış', 'Durum'].map((x) => h('div', null, x)));
+    const empty = h('div', { class: 'empty' }, q ? `"${q}" ile eşleşen ${tab === 'OPEN' ? 'açık' : 'tamamlanmış'} kayıt yok.` : tab === 'OPEN' ? 'Açık kayıt yok. "Yeni kayıt aç" ile ilk kaydı oluştur.' : 'Henüz kapanmış kayıt yok.');
+    const last = tab === 'OPEN' && !q ? d.data.slice(0, 3) : [];
+    recent.hidden = !last.length;
+    recent.replaceChildren(h('h2', null, 'Son kapanışlar'), h('div', { class: 'recent-grid' }, last.map((t) => h('a', { class: 'rc', href: '#/gorev/' + t.id },
+      h('span', { class: 'no' }, evrakNo(t)), h('span', { class: 'tt' }, t.title), t.completion_note ? h('p', null, t.completion_note) : '',
+      h('span', { class: 'sig' }, h('span', { class: 'sign' }, t.completed_by ? t.completed_by.username : ''), h('span', { class: 'dt', style: { display: 'block' } }, dmHm(t.completed_at))),
+      stampEl(t.completed_at)))));
+    list.replaceChildren(head, ...(rows.length ? rows.map((t) => taskRow(t, tab === 'OPEN' ? complete : null)) : [empty]),
+      tab === 'DONE' && d.count > d.data.length ? h('div', { class: 'more' }, h('button', { class: 'btn ghost sm', onclick: () => { doneLimit += 30; load(); } }, `Daha fazla göster (${d.count - d.data.length} kayıt)`)) : '');
   }
-  doneBtn.addEventListener('click', () => {
-    showDone = !showDone;
-    doneList.hidden = !showDone;
-    doneBtn.setAttribute('aria-expanded', String(showDone));
-    doneBtn.textContent = doneBtn.textContent.replace(/^[▸▾]/, showDone ? '▾' : '▸');
-    doneState.textContent = showDone ? 'en yeni üstte' : 'katlanmış';
-  });
   const search = debounce(load, 250);
   listeners.tasks.add(load);
+  drawTabs();
   load();
+  const month = new Intl.DateTimeFormat('tr-TR', { month: 'long', year: 'numeric' }).format(new Date());
   return h('div', null,
-    h('div', { class: 'page-head' }, h('h1', null, 'Tüm görevler'), h('span', { class: 'spacer' }), h('button', { class: 'btn cta', onclick: newTaskModal }, '+ Yeni görev')),
-    h('label', { class: 'search' }, ICON_SEARCH(), h('input', { id: 'search', placeholder: 'Görevlerde ara (başlık ve açıklama)…', 'aria-label': 'Görevlerde ara', oninput: (e) => { q = e.target.value; search(); } })),
-    h('div', { class: 'grp' }, openTitle, h('span', null, 'son tarihe göre')), openList,
-    h('div', { class: 'grp' }, doneBtn, doneState), doneList);
+    h('div', { class: 'page-head' },
+      h('div', null, h('h1', null, 'Evrak kayıt defteri'), h('p', null, `${month} · ekip panosu`)),
+      h('span', { class: 'spacer' }),
+      h('label', { class: 'search' }, ICON_SEARCH(), h('input', { id: 'search', type: 'search', placeholder: 'Kayıtlarda ara…', 'aria-label': 'Kayıtlarda ara (konu ve açıklama)', oninput: (e) => { q = e.target.value; search(); } })),
+      h('button', { class: 'btn', onclick: newTaskModal }, 'Yeni kayıt aç')),
+    tabs, list, recent);
 }
 
 /* =========================================================
@@ -1067,7 +1162,7 @@ function activityNodes(a) {
     case 'task.created': return ['görevi oluşturdu'];
     case 'task.updated': return Object.entries(a.changes).map(([f, c], i) => [i > 0 ? ', ' : '',
       f === 'description' ? 'açıklamayı değiştirdi' : [FIELD_NAMES[f] || f, ' ', h('b', null, fmtVal(f, c.from)), ' → ', h('b', null, fmtVal(f, c.to)), ' yaptı']]);
-    case 'task.completed': return ['görevi ', h('b', { style: { color: 'var(--ok-ink)' } }, 'tamamladı'), h('span', { class: 'quote ok' }, a.changes.note)];
+    case 'task.completed': return ['görevi ', h('b', { style: { color: 'var(--stamp)' } }, 'kaşeleyip kapattı'), h('span', { class: 'quote ok' }, a.changes.note)];
     case 'task.reopened': return ['görevi ', h('b', null, 'yeniden açtı'), h('span', { class: 'quote bad' }, a.changes.reason)];
     case 'task.deleted': return ['görevi sildi'];
     case 'task.restored': return ['görevi geri aldı'];
@@ -1088,7 +1183,7 @@ function composer(taskId, onPosted) {
   };
   const drawSugs = () => {
     box.hidden = !sugs.length;
-    box.replaceChildren(...sugs.map((u, i) => h('button', { type: 'button', class: i === sel ? 'on' : '', onmousedown: (e) => { e.preventDefault(); pick(u); } }, avatar(u.username, true), '@' + u.username)));
+    box.replaceChildren(...sugs.map((u, i) => h('button', { type: 'button', class: i === sel ? 'on' : '', onmousedown: (e) => { e.preventDefault(); pick(u); } }, '@' + u.username)));
   };
   const pick = (u) => {
     const m = mentionAt();
@@ -1150,7 +1245,7 @@ function taskDetailPage(id) {
       sb.from('comments').select('id,body,created_at,author:profiles!comments_author_id_fkey(id,username)').eq('task_id', id).order('created_at'),
     ]);
     if (t.error) return toast(errText(t.error), 'err');
-    if (!t.data) return root.replaceChildren(h('div', { class: 'empty' }, 'Görev bulunamadı. Silinmiş olabilir. ', h('a', { href: '#/' }, 'Görev listesine dön')));
+    if (!t.data) return root.replaceChildren(h('div', { class: 'empty' }, 'Kayıt bulunamadı. Silinmiş olabilir. ', h('a', { href: '#/' }, 'Kayıt defterine dön')));
     task = t.data;
     draw(a.data || [], c.data || []);
   }
@@ -1161,23 +1256,25 @@ function taskDetailPage(id) {
     const tags = (task.task_tags || []).map((x) => x.tags).filter(Boolean);
     const followers = (task.task_followers || []).map((x) => x.profiles).filter(Boolean);
     const following = followers.some((f) => f.id === state.me.id);
+    const press = state.justStamped === id;
+    if (press) state.justStamped = null;
 
-    const actions = h('div', { class: 'row-actions', style: { marginTop: '16px' } });
+    const actions = h('div', { class: 'row-actions', style: { marginTop: '18px' } });
     if (!task.deleted_at) {
       if (!done) {
         actions.append(
-          h('button', { class: 'btn ok', onclick: () => noteModal('complete', task.title, async (note) => { await rpc('complete_task', { p_id: id, p_note: note }); toast('Görev tamamlandı.'); load(); }) }, '✓ Tamamla'),
+          h('button', { class: 'btn', onclick: () => noteModal('complete', task.title, async (note) => { await rpc('complete_task', { p_id: id, p_note: note }); state.justStamped = id; toast(`${evrakNo(task)} kaşelendi ve kapandı.`); load(); }) }, 'Kaşe basarak kapat'),
           h('button', { class: 'btn ghost', onclick: () => startEdit() }, 'Düzenle'));
       }
       if (done && isAdmin) {
-        actions.append(h('button', { class: 'btn', onclick: () => noteModal('reopen', task.title, async (reason) => { await rpc('reopen_task', { p_id: id, p_reason: reason }); toast('Görev yeniden açıldı.'); load(); }) }, 'Yeniden aç'));
+        actions.append(h('button', { class: 'btn ghost', onclick: () => noteModal('reopen', task.title, async (reason) => { await rpc('reopen_task', { p_id: id, p_reason: reason }); toast(`${evrakNo(task)} yeniden açıldı.`); load(); }) }, 'Yeniden aç'));
       }
       actions.append(h('button', { class: 'btn ghost', onclick: async () => { await rpc('set_follow', { p_task: id, p_follow: !following }); load(); } }, following ? 'Takibi bırak' : 'Takip et'));
       if (isAdmin) {
         const delWrap = h('span', { class: 'row-actions' });
-        const ask = () => delWrap.replaceChildren(h('span', { class: 'hint' }, 'Silinsin mi?'),
-          h('button', { class: 'btn danger sm', onclick: async () => { await rpc('delete_task', { p_id: id }); toast('Görev silindi. Admin panelinden geri alabilirsin.'); go('/'); } }, 'Evet, sil'),
-          h('button', { class: 'btn ghost sm', onclick: () => delWrap.replaceChildren(delBtn) }, 'Hayır'));
+        const ask = () => delWrap.replaceChildren(h('span', { class: 'hint' }, 'Kayıt silinsin mi?'),
+          h('button', { class: 'btn danger sm', onclick: async () => { await rpc('delete_task', { p_id: id }); toast(`${evrakNo(task)} silindi. Admin panelinden geri alınabilir.`); go('/'); } }, 'Evet, sil'),
+          h('button', { class: 'btn ghost sm', onclick: () => delWrap.replaceChildren(delBtn) }, 'Vazgeç'));
         const delBtn = h('button', { class: 'btn danger sm', onclick: ask }, 'Sil');
         delWrap.append(delBtn);
         actions.append(h('span', { class: 'spacer' }), delWrap);
@@ -1190,26 +1287,31 @@ function taskDetailPage(id) {
     ].sort((x, y) => x.at.localeCompare(y.at));
 
     root.replaceChildren(
-      h('p', { style: { margin: '0 0 12px' } }, h('a', { href: '#/' }, '← Tüm görevler')),
-      task.deleted_at && h('div', { class: 'alert warn row-actions' }, 'Bu görev silinmiş. Sadece adminler görebilir.', h('span', { class: 'spacer' }),
-        h('button', { class: 'btn sm', onclick: async () => { await rpc('restore_task', { p_id: id }); toast('Görev geri alındı.'); load(); } }, 'Geri al')),
+      h('p', { style: { margin: '0 0 14px' } }, h('a', { href: '#/' }, ICON_BACK(), ' Kayıt defterine dön')),
+      task.deleted_at ? h('div', { class: 'alert warn row-actions' }, 'Bu kayıt silinmiş. Sadece adminler görebilir.', h('span', { class: 'spacer' }),
+        h('button', { class: 'btn sm', onclick: async () => { await rpc('restore_task', { p_id: id }); toast(`${evrakNo(task)} geri alındı.`); load(); } }, 'Geri al')) : '',
       h('div', { class: 'detail' },
         h('section', { class: 'card' },
-          h('div', { class: 'row-actions' }, h('span', { class: `pill s-${task.status}` }, done ? 'Tamamlandı' : 'Açık'), priorityPill(task.priority), tags.map(tagChip)),
-          h('h1', { style: { margin: '12px 0 4px', overflowWrap: 'anywhere' } }, task.title),
-          task.description ? h('p', { class: 'desc' }, task.description) : h('p', { class: 'hint', style: { margin: '8px 0 14px' } }, 'Açıklama yok.'),
+          h('div', { class: 'rec-head' }, h('span', { class: 'no' }, 'Evrak no ' + evrakNo(task)), h('span', { class: `pill s-${task.status}` }, done ? 'Tamamlandı' : 'Açık'), tags.map(tagChip)),
+          task.priority === 'ACIL' && h('span', { class: 'acil' }, 'ACİL'),
+          h('h1', { style: { overflowWrap: 'anywhere' } }, task.title),
+          task.description ? h('p', { class: 'desc' }, task.description) : h('p', { class: 'hint', style: { margin: '10px 0 18px' } }, 'Açıklama yok.'),
           h('dl', { class: 'kv' },
-            h('dt', null, 'Son tarih'), h('dd', { class: late ? 'late-txt' : '' }, task.due_at ? fmtLong(task.due_at) + (late ? ' · gecikti' : '') : 'Yok'),
-            h('dt', null, 'Oluşturan'), h('dd', null, `@${task.created_by.username} · ${fmtLong(task.created_at)}`),
+            h('dt', null, 'Öncelik'), h('dd', null, h('span', { class: `pri ${task.priority}` }, PRIORITY_LABELS[task.priority])),
+            h('dt', null, 'Son tarih'), h('dd', { class: late ? 'late-txt' : '' }, h('span', { class: 'n' }, task.due_at ? `${dmy(task.due_at)} ${timeOnly.format(new Date(task.due_at))}` : '—'), late ? ' · gecikti' : ''),
+            h('dt', null, 'Açan'), h('dd', null, `@${task.created_by.username} · `, h('span', { class: 'n' }, dmy(task.created_at))),
             task.updated_by && task.updated_at !== task.created_at && [h('dt', null, 'Son düzenleyen'), h('dd', null, `@${task.updated_by.username} · ${ago(task.updated_at)}`)],
-            done && task.completed_by && [h('dt', null, 'Tamamlayan'), h('dd', null, `@${task.completed_by.username} · ${fmtLong(task.completed_at)}`)],
-            h('dt', null, 'Takipçiler'), h('dd', null, followers.length ? followers.map((f) => '@' + f.username).join(', ') : 'Yok')),
-          done && task.completion_note && h('div', { class: 'done-note' }, h('b', null, 'Tamamlama açıklaması'), task.completion_note),
+            h('dt', null, 'Takipçiler'), h('dd', null, followers.length ? followers.map((f) => '@' + f.username).join(', ') : '—')),
+          done && task.completion_note && h('div', { class: 'closing' },
+            h('span', { class: 'lbl' }, 'Kapanış açıklaması'),
+            h('div', null, h('p', null, task.completion_note), h('div', { class: 'sign', style: { marginTop: '10px' } }, task.completed_by ? task.completed_by.username : ''),
+              h('div', { class: 'hint n' }, `${dmy(task.completed_at)} ${timeOnly.format(new Date(task.completed_at))}`)),
+            stampEl(task.completed_at, { lg: true, press })),
           actions,
-          done && !isAdmin && h('p', { class: 'hint', style: { marginTop: '12px' } }, 'Tamamlanan görev kilitlidir. Yeniden açılması gerekiyorsa bir admin ile görüş; yorum yazmaya devam edebilirsin.')),
-        h('section', { class: 'card' }, h('h2', null, 'Geçmiş ve yorumlar'),
-          h('ul', { class: 'tl' }, timeline.map((x) => h('li', null, avatar(x.who, true),
-            h('div', null, h('span', { class: 'who' }, '@' + x.who), ' ', x.body, h('div', { class: 'when', title: fmtLong(x.at) }, ago(x.at)))))),
+          done && !isAdmin && h('p', { class: 'hint', style: { marginTop: '12px' } }, 'Kaşelenmiş kayıt kilitlidir. Yeniden açılması gerekiyorsa bir admin ile görüş; yorum yazmaya devam edebilirsin.')),
+        h('section', { class: 'card' }, h('h2', null, 'Kayıt geçmişi'),
+          h('ul', { class: 'tl' }, timeline.map((x) => h('li', null,
+            h('span', { class: 'when', title: fmtLong(x.at) }, dmHm(x.at)), h('span', { class: 'who' }, '@' + x.who), ' ', x.body))),
           !task.deleted_at && composer(id, load))));
   }
 
@@ -1249,7 +1351,7 @@ function taskDetailPage(id) {
     };
     const card = root.querySelector('section.card');
     card.replaceChildren(h('form', { novalidate: true, onsubmit: (e) => { e.preventDefault(); doSave(); } },
-      h('h2', null, 'Görevi düzenle'), alert, f.el,
+      h('h2', null, 'Kaydı düzenle'), alert, f.el,
       h('div', { class: 'row-actions', style: { justifyContent: 'flex-end' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => { editing = null; load(); } }, 'Vazgeç'), save)));
   }
 
@@ -1261,39 +1363,52 @@ function taskDetailPage(id) {
 /* =========================================================
    Rapor
    ========================================================= */
-function barChart(data) {
-  if (!data.length) return h('p', { class: 'hint' }, 'Son 30 günde tamamlanan görev yok.');
+// Grafikler kartın ölçülen genişliğiyle çizilir: bir birim bir pikseldir, yazılar sayfanın tip ölçeğinde kalır.
+function chartBox(build, data) {
+  const box = h('div', { class: 'chartbox' });
+  let lastW = 0;
+  const draw = () => {
+    const w = Math.round(box.clientWidth);
+    if (!w || w === lastW) return;
+    lastW = w;
+    box.replaceChildren(build(data, Math.max(w, 260)));
+  };
+  if (window.ResizeObserver) new ResizeObserver(draw).observe(box);
+  requestAnimationFrame(draw);
+  return box;
+}
+function barChart(data, W) {
+  if (!data.length) return h('p', { class: 'hint' }, 'Son 30 günde kapanan kayıt yok.');
   const max = Math.max(...data.map((d) => d.count));
   const step = max <= 5 ? 1 : max <= 10 ? 2 : max <= 25 ? 5 : 10;
   const top = Math.ceil(max / step) * step;
-  const L = 84, R = 310, rowH = 28, H = data.length * rowH + 26;
+  const L = Math.min(130, Math.round(W * 0.28)), R = W - 14, rowH = 38, H = data.length * rowH + 30;
   const x = (v) => L + ((R - L) * v) / top;
-  let s = `<svg viewBox="0 0 320 ${H}" width="100%" role="img" aria-label="Kişi bazında tamamlanan görev sayısı" font-family="IBM Plex Sans, sans-serif">`;
-  for (let t = 0; t <= top; t += step) s += `<line x1="${x(t)}" y1="4" x2="${x(t)}" y2="${H - 22}" stroke="${t ? '#f1edf8' : '#e6e0f2'}"/><text x="${x(t)}" y="${H - 8}" font-size="11" text-anchor="${t === top ? 'end' : 'middle'}" fill="#6b6380">${t}</text>`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Kişi bazında kapanan kayıt sayısı" style="display:block;max-width:100%">`;
+  for (let t = 0; t <= top; t += step) s += `<line x1="${x(t)}" y1="2" x2="${x(t)}" y2="${H - 24}" stroke="${t ? '#dde5e1' : '#c5d1cb'}"/><text x="${x(t)}" y="${H - 7}" font-family="Courier Prime, monospace" font-size="12.5" text-anchor="${t === top ? 'end' : 'middle'}" fill="#55626d">${t}</text>`;
   data.forEach((d, i) => {
-    const y = 8 + i * rowH, w = Math.max(x(d.count) - L, 2), inside = w > 26;
-    s += `<text x="${L - 6}" y="${y + 13}" font-size="11.5" text-anchor="end" fill="#1c1530"></text><rect x="${L}" y="${y}" width="${w}" height="18" rx="3" fill="#6b3fd4"/><text x="${inside ? L + w - 5 : L + w + 5}" y="${y + 13}" font-size="11" font-weight="600" text-anchor="${inside ? 'end' : 'start'}" fill="${inside ? '#fff' : '#1c1530'}">${Number(d.count)}</text>`;
+    const y = 6 + i * rowH, w = Math.max(x(d.count) - L, 2), inside = w > 36;
+    s += `<text class="who-lbl" x="${L - 10}" y="${y + 17}" font-family="Libre Franklin, sans-serif" font-size="14" font-weight="600" text-anchor="end" fill="#1b2733"></text><rect x="${L}" y="${y}" width="${w}" height="24" fill="#2346b5"/><text x="${inside ? L + w - 8 : L + w + 8}" y="${y + 17}" font-family="Courier Prime, monospace" font-size="14" font-weight="700" text-anchor="${inside ? 'end' : 'start'}" fill="${inside ? '#fff' : '#1b2733'}">${Number(d.count)}</text>`;
   });
   const el = svg(s + '</svg>');
   // Kullanıcı adları metin olarak (güvenli) eklenir
-  el.querySelectorAll('text[text-anchor="end"][font-size="11.5"]').forEach((t, i) => (t.textContent = '@' + data[i].username));
+  el.querySelectorAll('text.who-lbl').forEach((t, i) => (t.textContent = '@' + data[i].username));
   return el;
 }
-function trendChart(data) {
+function trendChart(data, W) {
   const max = Math.max(4, ...data.flatMap((d) => [d.opened, d.completed]));
   const top = Math.ceil(max / 4) * 4;
-  const L = 30, R = 300, T = 12, B = 128, H = 150;
-  const x = (i) => L + 20 + ((R - L - 20) * i) / Math.max(data.length - 1, 1);
+  const L = 40, R = W - 14, T = 12, B = 176, H = 204;
+  const x = (i) => L + 26 + ((R - L - 52) * i) / Math.max(data.length - 1, 1);
   const y = (v) => B - ((B - T) * v) / top;
   const pts = (k) => data.map((d, i) => `${x(i)},${y(d[k])}`).join(' ');
-  const fmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short' });
   const last = data.length - 1;
-  let s = `<svg viewBox="0 0 320 ${H}" width="100%" role="img" aria-label="Haftalık açılan ve tamamlanan görevler" font-family="IBM Plex Sans, sans-serif">`;
-  [0, top / 2, top].forEach((v) => (s += `<line x1="${L}" y1="${y(v)}" x2="${R + 10}" y2="${y(v)}" stroke="${v ? '#f1edf8' : '#e6e0f2'}"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#6b6380">${v}</text>`));
-  s += `<path d="M${x(0)},${B} L${pts('completed').split(' ').join(' L')} L${x(last)},${B} Z" fill="#1f9d63" fill-opacity=".12"/>`;
-  s += `<polyline points="${pts('opened')}" fill="none" stroke="#ff7a1a" stroke-width="2"/><polyline points="${pts('completed')}" fill="none" stroke="#1f9d63" stroke-width="2"/>`;
-  s += `<circle cx="${x(last)}" cy="${y(data[last].opened)}" r="3.5" fill="#ff7a1a"/><circle cx="${x(last)}" cy="${y(data[last].completed)}" r="3.5" fill="#1f9d63"/>`;
-  data.forEach((d, i) => (s += `<text x="${x(i)}" y="${H - 6}" font-size="11" text-anchor="middle" fill="#6b6380">${fmt.format(new Date(d.weekStart))}</text>`));
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Haftalık açılan ve kaşelenen kayıtlar" style="display:block;max-width:100%">`;
+  [0, top / 2, top].forEach((v) => (s += `<line x1="${L}" y1="${y(v)}" x2="${R}" y2="${y(v)}" stroke="${v ? '#dde5e1' : '#c5d1cb'}"/><text x="${L - 8}" y="${y(v) + 4}" font-family="Courier Prime, monospace" font-size="12.5" text-anchor="end" fill="#55626d">${v}</text>`));
+  s += `<path d="M${x(0)},${B} L${pts('completed').split(' ').join(' L')} L${x(last)},${B} Z" fill="#2346b5" fill-opacity=".1"/>`;
+  s += `<polyline points="${pts('opened')}" fill="none" stroke="#1b2733" stroke-width="2"/><polyline points="${pts('completed')}" fill="none" stroke="#2346b5" stroke-width="2.5"/>`;
+  s += `<rect x="${x(last) - 4}" y="${y(data[last].opened) - 4}" width="8" height="8" fill="#1b2733"/><rect x="${x(last) - 4}" y="${y(data[last].completed) - 4}" width="8" height="8" fill="#2346b5"/>`;
+  data.forEach((d, i) => (s += `<text x="${x(i)}" y="${H - 6}" font-family="Courier Prime, monospace" font-size="12.5" text-anchor="middle" fill="#55626d">${dmy(d.weekStart).slice(0, 5)}</text>`));
   return svg(s + '</svg>');
 }
 function reportPage() {
@@ -1301,16 +1416,16 @@ function reportPage() {
   const load = async () => {
     try {
       const r = await rpc('report_summary');
-      const stat = (k, v, cls) => h('div', { class: `stat${cls ? ' ' + cls : ''}` }, h('div', { class: 'k' }, k), h('div', { class: 'v' }, v));
+      const stat = (k, v, cls) => h('div', null, h('div', { class: 'k' }, k), h('div', { class: `v${cls ? ' ' + cls : ''}` }, v));
       root.replaceChildren(
-        h('div', { class: 'page-head' }, h('h1', null, 'Rapor')),
-        h('div', { class: 'stats' },
-          stat('Açık görev', r.open), stat('Geciken', r.overdue, r.overdue ? 'bad' : ''), stat('Bu hafta tamamlanan', r.doneThisWeek, 'ok'),
-          stat('Ort. tamamlama süresi (30 gün)', r.avgCompletionDays === null ? '—' : [Number(r.avgCompletionDays).toLocaleString('tr-TR'), ' ', h('span', { style: { fontSize: '14px', fontWeight: '500' } }, 'gün')])),
+        h('div', { class: 'page-head' }, h('div', null, h('h1', null, 'Dönem dökümü'), h('p', null, 'Açık, geciken ve kaşelenen kayıtlar'))),
+        h('div', { class: 'ledger' },
+          stat('Açık kayıt', r.open), stat('Geciken', r.overdue, r.overdue ? 'bad' : ''), stat('Bu hafta kaşelenen', r.doneThisWeek),
+          stat('Ort. tamamlama süresi (30 gün)', r.avgCompletionDays === null ? '—' : [...String(Number(r.avgCompletionDays).toLocaleString('tr-TR')).split(/(,)/).map((p) => (p === ',' ? h('span', { style: { marginLeft: '-.2em', marginRight: '-.16em' } }, ',') : p)), ' ', h('span', { style: { fontSize: '15px', fontFamily: 'var(--ui)', fontWeight: '600' } }, 'gün')])),
         h('div', { class: 'charts' },
-          h('div', { class: 'stat' }, h('div', { class: 'k', style: { marginBottom: '8px' } }, 'Son 30 günde kim kaç görev tamamladı'), barChart(r.perUser)),
-          h('div', { class: 'stat' }, h('div', { class: 'k', style: { marginBottom: '8px' } }, 'Haftalık açılan ve tamamlanan'), trendChart(r.weekly),
-            h('div', { class: 'legend' }, h('span', null, h('i', { style: { background: 'var(--orange)' } }), 'Açılan'), h('span', null, h('i', { style: { background: 'var(--ok)' } }), 'Tamamlanan')))));
+          h('div', { class: 'card' }, h('h2', null, 'Son 30 günde kim kaç kayıt kapattı'), chartBox(barChart, r.perUser)),
+          h('div', { class: 'card' }, h('h2', null, 'Haftalık açılan ve kaşelenen'), chartBox(trendChart, r.weekly),
+            h('div', { class: 'legend' }, h('span', null, h('i', { style: { background: 'var(--ink)' } }), 'Açılan'), h('span', null, h('i', { style: { background: 'var(--stamp)' } }), 'Kaşelenen')))));
     } catch (e) {
       root.replaceChildren(h('div', { class: 'alert err' }, errText(e)));
     }
@@ -1367,7 +1482,7 @@ function adminPage() {
       } }, h('input', { id: 'tag-name', class: 'input', style: { flex: '1', minWidth: '160px' }, placeholder: 'Yeni etiket adı', maxlength: '24', oninput: (e) => { name = e.target.value; addBtn.disabled = name.trim().length < 2; } }), swatches, addBtn),
       err,
       h('div', { class: 'row-actions', style: { marginTop: '16px' } }, list.map((t) => h('span', { class: 'row-actions', style: { gap: '2px' } }, tagChip(t),
-        h('button', { class: 'linkbtn', style: { color: 'var(--bad-ink)', fontSize: '12px', marginRight: '10px' }, 'aria-label': t.name + ' etiketini sil', onclick: async () => { await rpc('delete_tag', { p_id: t.id }); tags(); } }, '✕'))))));
+        h('button', { class: 'linkbtn', style: { color: 'var(--red)', fontSize: '12px', marginRight: '10px' }, 'aria-label': t.name + ' etiketini sil', onclick: async () => { await rpc('delete_tag', { p_id: t.id }); tags(); } }, ICON_X()))))));
   }
 
   async function deleted() {

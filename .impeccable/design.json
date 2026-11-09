@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T18:32:26.729Z",
+  "title": "Design System: Görevhane",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Form Kağıdı",
+        "canonical": "#e9efec",
+        "tonalRamp": [
+          "#232a26",
+          "#384740",
+          "#4d6559",
+          "#628473",
+          "#84a394",
+          "#afc0b8",
+          "#d5dcd9",
+          "#f1f3f2"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Tabaka Beyazı",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#949494",
+          "#b8b8b8",
+          "#d9d9d9",
+          "#f2f2f2"
+        ]
+      },
+      "row": {
+        "role": "neutral",
+        "displayName": "Satır Yeşili",
+        "canonical": "#f4f7f5",
+        "tonalRamp": [
+          "#232a25",
+          "#38473d",
+          "#4d6555",
+          "#62846d",
+          "#84a38f",
+          "#afc0b5",
+          "#d5dcd8",
+          "#f1f3f2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Mürekkep",
+        "canonical": "#1b2733",
+        "tonalRamp": [
+          "#1f262d",
+          "#32404e",
+          "#425970",
+          "#517394",
+          "#7694b2",
+          "#a7b8c8",
+          "#d2d9e0",
+          "#f0f2f4"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Soluk Mürekkep",
+        "canonical": "#55626d",
+        "tonalRamp": [
+          "#232629",
+          "#3a4045",
+          "#505a62",
+          "#657480",
+          "#8895a0",
+          "#b1b8be",
+          "#d6d9dc",
+          "#f1f2f3"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Form Izgarası",
+        "canonical": "#c5d1cb",
+        "tonalRamp": [
+          "#242926",
+          "#3a4540",
+          "#516259",
+          "#667f73",
+          "#899f94",
+          "#b1beb8",
+          "#d6dbd9",
+          "#f2f3f2"
+        ]
+      },
+      "grid-2": {
+        "role": "neutral",
+        "displayName": "İnce Izgara",
+        "canonical": "#dde5e1",
+        "tonalRamp": [
+          "#232926",
+          "#3a4640",
+          "#4f6359",
+          "#648173",
+          "#87a194",
+          "#b0bfb8",
+          "#d6dcd9",
+          "#f1f3f2"
+        ]
+      },
+      "shell": {
+        "role": "primary",
+        "displayName": "Menü Şeridi Laciverti",
+        "canonical": "#1d3a99",
+        "tonalRamp": [
+          "#161e36",
+          "#202f5f",
+          "#263e8c",
+          "#294bbd",
+          "#5170d6",
+          "#93a4dc",
+          "#c9d0e9",
+          "#eef0f7"
+        ]
+      },
+      "shell-hover": {
+        "role": "primary",
+        "displayName": "Şerit Üzeri",
+        "canonical": "#2a4bb8",
+        "tonalRamp": [
+          "#171e35",
+          "#23305d",
+          "#2a4088",
+          "#2f4eb7",
+          "#5773d1",
+          "#96a5da",
+          "#cad1e8",
+          "#eef0f6"
+        ]
+      },
+      "shell-ink": {
+        "role": "primary",
+        "displayName": "Şerit Metni",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#949494",
+          "#b8b8b8",
+          "#d9d9d9",
+          "#f2f2f2"
+        ]
+      },
+      "shell-muted": {
+        "role": "primary",
+        "displayName": "Şerit Soluk Metni",
+        "canonical": "#cbd6ff",
+        "tonalRamp": [
+          "#0f193e",
+          "#12256e",
+          "#0f2ea4",
+          "#0634df",
+          "#325cf6",
+          "#8198ee",
+          "#c1cbf0",
+          "#eceff9"
+        ]
+      },
+      "stamp": {
+        "role": "primary",
+        "displayName": "Kaşe Mavisi",
+        "canonical": "#2346b5",
+        "tonalRamp": [
+          "#161e36",
+          "#212f5f",
+          "#273f8c",
+          "#294dbc",
+          "#5272d6",
+          "#93a5dc",
+          "#c9d0e9",
+          "#eef0f7"
+        ]
+      },
+      "stamp-soft": {
+        "role": "primary",
+        "displayName": "Kaşe Mavisi Yumuşak",
+        "canonical": "#e6ecfb",
+        "tonalRamp": [
+          "#151f37",
+          "#1e3161",
+          "#23428f",
+          "#2451c1",
+          "#4d76db",
+          "#90a7df",
+          "#c8d1ea",
+          "#eef0f7"
+        ]
+      },
+      "stamp-line": {
+        "role": "primary",
+        "displayName": "Kaşe Mavisi Çizgi",
+        "canonical": "#c4d0f3",
+        "tonalRamp": [
+          "#171f36",
+          "#21315e",
+          "#28418b",
+          "#2b50bb",
+          "#5374d5",
+          "#94a6db",
+          "#c9d1e8",
+          "#eef0f7"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "ACİL Kırmızısı",
+        "canonical": "#c42f2b",
+        "tonalRamp": [
+          "#351817",
+          "#5d2422",
+          "#892c2a",
+          "#b8312d",
+          "#d25955",
+          "#da9795",
+          "#e8caca",
+          "#f6eeee"
+        ]
+      },
+      "red-soft": {
+        "role": "secondary",
+        "displayName": "Kırmızı Yumuşak",
+        "canonical": "#fbe9e7",
+        "tonalRamp": [
+          "#371915",
+          "#61251f",
+          "#8e2f24",
+          "#c03525",
+          "#da5c4e",
+          "#de9991",
+          "#eacbc8",
+          "#f7efee"
+        ]
+      },
+      "red-line": {
+        "role": "secondary",
+        "displayName": "Kırmızı Çizgi",
+        "canonical": "#efc2bd",
+        "tonalRamp": [
+          "#351b18",
+          "#5c2924",
+          "#87352c",
+          "#b53e31",
+          "#cf6458",
+          "#d99d97",
+          "#e7cdca",
+          "#f6efee"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Kehribar",
+        "canonical": "#9a5200",
+        "tonalRamp": [
+          "#3e280f",
+          "#6e4312",
+          "#a45e0f",
+          "#df7a06",
+          "#f69a32",
+          "#eebb81",
+          "#f0dac1",
+          "#f9f3ec"
+        ]
+      },
+      "amber-soft": {
+        "role": "tertiary",
+        "displayName": "Kehribar Yumuşak",
+        "canonical": "#fdf0dc",
+        "tonalRamp": [
+          "#3b2b11",
+          "#694817",
+          "#9c6717",
+          "#d38712",
+          "#eba63d",
+          "#e8c287",
+          "#eeddc4",
+          "#f8f3ed"
+        ]
+      },
+      "amber-line": {
+        "role": "tertiary",
+        "displayName": "Kehribar Çizgi",
+        "canonical": "#f0d3a8",
+        "tonalRamp": [
+          "#372916",
+          "#60461f",
+          "#8e6325",
+          "#bf8226",
+          "#d9a14f",
+          "#debf91",
+          "#e9dcc8",
+          "#f7f3ee"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Sayfa başlığı; giriş tabakasında 26px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Pencere (modal) başlıkları."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Kart ve bölüm başlıkları."
+      },
+      "record-title": {
+        "displayName": "Record title",
+        "purpose": "Tablodaki kayıt konusu; tamamlanınca soluk mürekkep."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Gövde, girişler, menü öğeleri."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Büyük harf form alanı etiketi, tanım anahtarı, rapor kutusu başlığı; tablo başlıkları 11px / 0.12em."
+      },
+      "record-number": {
+        "displayName": "Record number",
+        "purpose": "Courier Prime evrak no (yyyy/nnnn), tabular."
+      },
+      "date": {
+        "displayName": "Date",
+        "purpose": "Courier Prime tarih ve saat, tabular."
+      },
+      "ledger-figure": {
+        "displayName": "Ledger figure",
+        "purpose": "Rapor dökümündeki sayılar."
+      },
+      "signature": {
+        "displayName": "Signature",
+        "purpose": "Yalnızca kapanış imzası (Caveat, kaşe mavisi)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "0 18px 40px -30px rgba(27, 39, 51, .5)",
+        "purpose": "Yalnızca giriş/kayıt tabakası."
+      },
+      {
+        "name": "menu",
+        "value": "0 18px 40px -20px rgba(27, 39, 51, .45)",
+        "purpose": "Bildirim paneli."
+      },
+      {
+        "name": "suggest",
+        "value": "0 12px 28px -16px rgba(27, 39, 51, .4)",
+        "purpose": "@bahsetme öneri listesi."
+      },
+      {
+        "name": "modal",
+        "value": "0 24px 60px -20px rgba(0, 0, 0, .45)",
+        "purpose": "Pencere; perde rgba(27, 39, 51, .45)."
+      },
+      {
+        "name": "toast",
+        "value": "0 12px 30px -12px rgba(0, 0, 0, .5)",
+        "purpose": "Alt ortadaki bildirim balonu."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px var(--stamp-soft)",
+        "purpose": "Giriş ve arama odağı (kaşe mavisi kenarla birlikte)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "stamp-press",
+        "value": "press .42s cubic-bezier(.16, 1, .3, 1) both; from { transform: scale(1.7) rotate(-15deg); opacity: 0; filter: blur(2px) } 70% { opacity: 1; filter: blur(0) } to { transform: scale(1) rotate(-7deg); opacity: 1 }",
+        "purpose": "İmza hareketi: tamamlama anında kaşe basılır. prefers-reduced-motion: reduce altında kapalı."
+      },
+      {
+        "name": "state",
+        "value": "background-color .15s, transform .15s",
+        "purpose": "Düğme ve Kaşe bas durum geçişleri."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "rail-collapse",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Birincil eylem (Yeni kayıt aç, Kaydet): keskin köşeli kaşe mavisi dolgu.",
+      "html": "<button class=\"ds-btn\">Yeni kayıt aç</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; font-family: var(--ui); font-weight: 700; font-size: 14px; border: 1px solid var(--stamp); border-radius: 0; background: var(--stamp); color: #fff; cursor: pointer; transition: background-color .15s; } .ds-btn:hover { background: var(--shell); } .ds-btn:focus-visible { outline: 2px solid var(--stamp); outline-offset: 2px; } .ds-btn:disabled { opacity: .45; cursor: not-allowed; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "İkincil eylem (Yeniden aç, Takip et).",
+      "html": "<button class=\"ds-btn-ghost\">Takip et</button>",
+      "css": ".ds-btn-ghost { padding: 9px 16px; font-family: var(--ui); font-weight: 700; font-size: 14px; border: 1px solid var(--grid); border-radius: 0; background: var(--sheet); color: var(--ink); cursor: pointer; transition: background-color .15s; } .ds-btn-ghost:hover { background: var(--row); border-color: var(--muted); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--stamp); outline-offset: 2px; }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Geri alınması zor işlem (Sil).",
+      "html": "<button class=\"ds-btn-danger\">Sil</button>",
+      "css": ".ds-btn-danger { padding: 5px 10px; font-family: var(--ui); font-weight: 700; font-size: 12.5px; border: 1px solid var(--red); border-radius: 0; background: var(--sheet); color: var(--red); cursor: pointer; transition: background-color .15s; } .ds-btn-danger:hover { background: var(--red-soft); } .ds-btn-danger:focus-visible { outline: 2px solid var(--stamp); outline-offset: 2px; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Büyük harf etiketli form alanı; odakta kaşe mavisi kenar ve hale.",
+      "html": "<label class=\"ds-field\"><span>Başlık</span><input class=\"ds-input\" placeholder=\"Kayıt konusu\"></label>",
+      "css": ".ds-field { display: grid; gap: 5px; font-family: var(--ui); } .ds-field > span { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); } .ds-input { background: var(--sheet); border: 1px solid var(--grid); border-radius: 0; padding: 10px 12px; font: inherit; font-size: 14.5px; color: var(--ink); } .ds-input:hover { border-color: var(--muted); } .ds-input:focus { outline: none; border-color: var(--stamp); box-shadow: 0 0 0 3px var(--stamp-soft); }"
+    },
+    {
+      "name": "Navigation Rail",
+      "kind": "nav",
+      "refersTo": "nav-rail",
+      "description": "232px kaşe mavisi sol şerit; etkin sayfa beyaz tabaka.",
+      "html": "<nav class=\"ds-rail\"><a class=\"ds-on\" href=\"#\">Kayıtlar</a><a href=\"#\">Rapor</a><a href=\"#\">Admin</a></nav>",
+      "css": ".ds-rail { width: 232px; background: var(--shell); padding: 22px 16px; display: flex; flex-direction: column; gap: 2px; font-family: var(--ui); } .ds-rail a { padding: 9px 12px; font-weight: 600; font-size: 14.5px; color: var(--shell-muted); text-decoration: none; } .ds-rail a:hover { background: var(--shell-hover); color: #fff; } .ds-rail a.ds-on { background: var(--sheet); color: var(--shell); } .ds-rail a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Renk noktalı keskin köşeli etiket.",
+      "html": "<span class=\"ds-tag\"><i style=\"background:#2346b5\"></i>Altyapı</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 5px; font-family: var(--ui); font-size: 12px; padding: 1px 8px; border: 1px solid var(--grid); background: var(--sheet); color: var(--ink); } .ds-tag i { width: 8px; height: 8px; border-radius: 50%; display: block; }"
+    },
+    {
+      "name": "Record Row",
+      "kind": "card",
+      "refersTo": "record-sheet",
+      "description": "Form ızgaralı kayıt satırı: evrak no, açılış, konu, açan, son tarih.",
+      "html": "<div class=\"ds-rec\"><div class=\"ds-no\">2026/0147</div><div class=\"ds-dt\">06.11.26</div><div><span class=\"ds-acil\">ACİL</span><b class=\"ds-tt\">Sunucu sertifikasını yenile</b></div><div class=\"ds-late\">09.11 16:28</div></div>",
+      "css": ".ds-rec { display: grid; grid-template-columns: 112px 88px minmax(0,1fr) 120px; min-height: 72px; background: var(--sheet); border: 1px solid var(--grid); font-family: var(--ui); color: var(--ink); cursor: pointer; } .ds-rec:hover { background: var(--row); } .ds-rec > div { padding: 10px 14px; border-left: 1px solid var(--grid-2); display: flex; flex-direction: column; justify-content: center; } .ds-rec > div:first-child { border-left: 0; } .ds-no { font-family: var(--num); font-weight: 700; font-size: 14px; } .ds-dt { font-family: var(--num); font-size: 13.5px; color: var(--muted); } .ds-tt { font-weight: 600; font-size: 15.5px; line-height: 1.3; } .ds-late { font-family: var(--num); font-size: 13.5px; color: var(--red); font-weight: 700; } .ds-acil { width: max-content; border: 2px solid var(--red); color: var(--red); font-weight: 800; font-size: 11px; letter-spacing: .14em; padding: 0 6px; transform: rotate(-3deg); margin-bottom: 5px; }"
+    },
+    {
+      "name": "Stamp Button",
+      "kind": "button",
+      "refersTo": "stamp-button",
+      "description": "Kaydı kapatmayı başlatan 'Kaşe bas' düğmesi.",
+      "html": "<button class=\"ds-stampbtn\">Kaşe bas</button>",
+      "css": ".ds-stampbtn { display: inline-flex; align-items: center; min-height: 38px; padding: 7px 10px; background: var(--sheet); color: var(--stamp); border: 2px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 2px; border-radius: 5px; transform: rotate(-3deg); font-family: var(--ui); font-weight: 800; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background-color .15s, transform .15s; } .ds-stampbtn:hover { background: var(--stamp-soft); transform: rotate(-3deg) scale(1.04); } .ds-stampbtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }"
+    },
+    {
+      "name": "TAMAMLANDI Stamp + Signature",
+      "kind": "custom",
+      "refersTo": "stamp-completed",
+      "description": "İmza bileşeni: tarihli çift çerçeveli kaşe, Caveat imza ve Courier tarih-saat; basılma hareketiyle gelir.",
+      "html": "<div class=\"ds-close\"><div><span class=\"ds-sign\">ayse</span><span class=\"ds-when\">09.11.2026 18:26</span></div><span class=\"ds-stamp\">TAMAMLANDI<small>09.11.2026</small></span></div>",
+      "css": ".ds-close { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 16px; border: 1px dashed var(--grid); background: var(--sheet); } .ds-sign { display: block; font-family: var(--sign); font-size: 30px; font-weight: 600; color: var(--stamp); line-height: 1; } .ds-when { display: block; font-family: var(--num); font-size: 12.5px; color: var(--muted); } .ds-stamp { display: inline-flex; flex-direction: column; align-items: center; border: 2px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 2px; border-radius: 6px; color: var(--stamp); padding: 5px 12px; transform: rotate(-7deg); font-family: var(--ui); font-weight: 800; font-size: 15px; letter-spacing: .1em; line-height: 1.25; animation: ds-press .42s cubic-bezier(.16, 1, .3, 1) both; } .ds-stamp small { font-family: var(--num); font-size: 13px; letter-spacing: .02em; font-weight: 700; } @keyframes ds-press { from { transform: scale(1.7) rotate(-15deg); opacity: 0; filter: blur(2px); } 70% { opacity: 1; filter: blur(0); } to { transform: scale(1) rotate(-7deg); opacity: 1; } } @media (prefers-reduced-motion: reduce) { .ds-stamp { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Evrak Defteri",
+    "overview": "Görevhane bir kayıt defteridir: her görev yıl/sıra numaralı bir evraktır (`2026/0147`), açık yeşil-gri form kağıdı zemin üzerinde beyaz form tabakalarına tek piksellik ızgara çizgileriyle işlenir. Kapanış bir beyan olduğu için arayüzün en güçlü anı da odur: kayıt, çift çerçeveli, hafif eğik, tarihli bir TAMAMLANDI kaşesiyle ve el yazısı imzayla düşülür. Renk az ve görevlidir; kaşe mavisi yetkiyi ve kapanışı, kırmızı aciliyeti ve gecikmeyi taşır.\n\nYoğunluk masa başı iş ekranı yoğunluğudur: 14.5px gövde, 72px kayıt satırları, tam genişlik tablo. Dekor yoktur; her çizgi bir form alanının sınırıdır, her eğik nesne gerçek bir kaşedir. Yalnızca açık tema vardır (`color-scheme: light`) ve arayüz metni yalnızca Türkçedir.\n\nDünya, beyaz kartlı ve mor vurgulu genel SaaS listesini reddeder; soğuk kurumsal his istenmez. Sıcaklığı yuvarlak köşeler ya da gölgeler değil, kaşe ve imza gibi insan izleri verir.",
+    "keyCharacteristics": [
+      "Form kağıdı zemin, beyaz tabakalar, 1px ızgara çizgileri; köşeler keskin.",
+      "Solda dolgun kaşe mavisi menü şeridi (232px).",
+      "Evrak numaraları, tarihler ve sayılar daktilo yazısıyla (Courier Prime, tabular).",
+      "Kapanış = tarihli, çift çerçeveli, −7° eğik kaşe + Caveat imza.",
+      "Tek imza hareketi: kaşe basma (reduced-motion korumalı)."
+    ],
+    "rules": [
+      {
+        "name": "İki Mürekkep Kuralı",
+        "body": "Doygun renk yalnızca iki anlam taşır: mavi = yetki ve kapanış, kırmızı = acil ve gecikme. Üçüncü bir vurgu rengi eklenmez; kehribar yalnızca öncelik/uyarı metnidir.",
+        "section": "colors"
+      },
+      {
+        "name": "Kağıt Üstünde Tabaka Kuralı",
+        "body": "İçerik daima beyaz tabakada (sheet) durur; zemin (ground) yalnızca tabakalar arasındaki boşluktur, üzerine içerik yazılmaz (sayfa başlığı hariç).",
+        "section": "colors"
+      },
+      {
+        "name": "Daktilo Kuralı",
+        "body": "Evrak numarası, tarih, saat, sayaç ve rapor rakamı her zaman Courier Prime ile ve tabular rakamla yazılır; Libre Franklin ile sayı kaydı yazılmaz.",
+        "section": "typography"
+      },
+      {
+        "name": "Tek İmza Kuralı",
+        "body": "Caveat yalnızca kapanış imzasında kullanılır. Başlık, vurgu ya da dekor için el yazısı kullanılmaz.",
+        "section": "typography"
+      },
+      {
+        "name": "Form Etiketi Kuralı",
+        "body": "Büyük harf ve açık harf aralığı yalnızca bir verinin hemen üstündeki/yanındaki alan adıdır (sütun başlığı, alan etiketi). Başlığın üstüne bölüm etiketi olarak konmaz.",
+        "section": "typography"
+      },
+      {
+        "name": "Düz Defter Kuralı",
+        "body": "Tablo, kart ve döküm kutuları gölgesizdir; ayrım 1px ızgara çizgisiyle yapılır. Gölge yalnızca üstte süzülen geçici katmanlara aittir.",
+        "section": "elevation"
+      },
+      {
+        "name": "Gerçek Nesne Kuralı",
+        "body": "Keskin köşe kuralının tek istisnası kaşelerdir; eğiklik ve yuvarlak köşe yalnızca kaşe olan nesneye verilir, kartlara veya düğmelere dekor olarak verilmez.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do her kaydı Courier Prime ile `yyyy/nnnn` evrak numarası ve `gg.aa.yy` tarihle göster.",
+      "Do kapanışı her zaman tarihli TAMAMLANDI kaşesi + Caveat imza + Courier Prime tarih-saat üçlüsüyle düş.",
+      "Do yeni yüzeyleri beyaz tabaka + 1px ızgara (#c5d1cb dış, #dde5e1 iç) ile kur; köşeleri 0px tut.",
+      "Do odakta kaşe mavisi kenar ve 3px stamp-soft hale kullan; genel odak 2px kaşe mavisi dış çizgi, 2px offset.",
+      "Do kaşe basma hareketini yalnızca tamamlama anında oynat ve reduced-motion korumasını koru.",
+      "Do ikonları satır içi SVG olarak, currentColor çizgiyle, 10–16px çiz."
+    ],
+    "donts": [
+      "Don't beyaz kartlı, mor vurgulu genel SaaS listesine ya da soğuk kurumsal görünüme kay.",
+      "Don't koyu tema ekleme; sistem yalnızca açık temadır.",
+      "Don't Caveat'i imza dışında, Courier Prime'ı kayıt verisi dışında kullan.",
+      "Don't kalıcı yüzeylere (tablo, kart, döküm) gölge verme.",
+      "Don't eğiklik ve yuvarlak köşeyi kaşe olmayan nesnelere dekor olarak uygula.",
+      "Don't mavi ve kırmızıya ek bir vurgu rengi ekle; kırmızıyı acil/gecikme/hata dışında kullanma."
+    ]
+  }
+}
