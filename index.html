@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6b3fd4">
+<title>Görevhane</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%236b3fd4'/%3E%3Cpath d='M6 12.5l4 4 8-9' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Görevhane — açık tema; mor ana renk, turuncu vurgu */
+:root {
+  --bg: #f7f5fc; --surface: #ffffff; --fg: #1c1530; --muted: #6b6380; --line: #e6e0f2;
+  --accent: #6b3fd4; --accent-hover: #5a32b8; --accent-soft: #efe8fc;
+  --orange: #ff7a1a; --orange-hover: #f06a0a;
+  --ok: #1f9d63; --ok-ink: #17834f; --ok-soft: #e3f5ec;
+  --bad: #e0364a; --bad-ink: #c42537; --bad-soft: #fde7ea;
+  --warn: #c2540a; --warn-soft: #fff0e4;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14.5px; line-height: 1.5; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: 24px; } h2 { font-size: 18px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font: inherit; cursor: pointer; }
+input, textarea, select { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; padding: 8px 14px; font-weight: 600; font-size: 13.5px; border: 1px solid transparent; background: var(--accent); color: #fff; white-space: nowrap; }
+.btn:hover:not(:disabled) { background: var(--accent-hover); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.ghost { background: var(--surface); color: var(--fg); border-color: var(--line); }
+.btn.ghost:hover:not(:disabled) { background: var(--accent-soft); }
+.btn.cta { background: var(--orange); color: var(--fg); }
+.btn.cta:hover:not(:disabled) { background: var(--orange-hover); }
+.btn.ok { background: var(--ok); } .btn.ok:hover:not(:disabled) { background: var(--ok-ink); }
+.btn.danger { background: var(--surface); color: var(--bad-ink); border-color: var(--bad-soft); }
+.btn.danger:hover:not(:disabled) { background: var(--bad-soft); }
+.btn.sm { padding: 5px 10px; font-size: 12.5px; }
+.btn.block { width: 100%; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); font-weight: 600; }
+.linkbtn:disabled { color: var(--muted); cursor: default; }
+
+.field { display: grid; gap: 5px; margin-bottom: 14px; }
+.field > label { font-size: 12.5px; font-weight: 600; }
+.input, .textarea, .select { width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 14px; }
+.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input.err { border-color: var(--bad); }
+.textarea { resize: vertical; min-height: 90px; }
+.hint { font-size: 12px; color: var(--muted); }
+.hint.err { color: var(--bad-ink); } .hint.ok { color: var(--ok-ink); }
+.alert { border-radius: 8px; padding: 10px 12px; font-size: 13.5px; margin-bottom: 14px; }
+.alert.err { background: var(--bad-soft); color: var(--bad-ink); }
+.alert.ok { background: var(--ok-soft); color: var(--ok-ink); }
+.alert.warn { background: var(--warn-soft); color: var(--warn); }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.meter i { height: 4px; border-radius: 2px; background: var(--line); }
+.meter i.on { background: var(--ok); }
+.checks { list-style: none; margin: 4px 0 0; padding: 0; font-size: 12px; display: grid; gap: 2px; }
+.checks li { color: var(--muted); } .checks li.ok { color: var(--ok-ink); }
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.spacer { flex: 1; }
+
+.auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
+.auth-card { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; box-shadow: 0 18px 40px -28px rgba(60, 30, 130, .45); }
+.auth-card h1 { margin: 14px 0 4px; }
+.auth-card .sub { color: var(--muted); margin: 0 0 18px; font-size: 13.5px; }
+.auth-foot { margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center; }
+.steps { display: flex; gap: 8px; margin-bottom: 16px; font-size: 12px; }
+.steps span { flex: 1; padding: 6px 8px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); text-align: center; }
+.steps span.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.steps span.past { color: var(--ok-ink); border-color: var(--ok); background: var(--ok-soft); }
+.code { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 12px 0 6px; }
+.code input { width: 100%; min-width: 0; padding: 0; aspect-ratio: 1 / 1.15; text-align: center; font-family: var(--font-mono); font-size: 22px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--surface); }
+.code input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.code-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+
+.logo { font-family: var(--font-display); font-weight: 700; font-size: 18px; display: inline-flex; align-items: center; gap: 8px; color: var(--fg); }
+.logo:hover { text-decoration: none; }
+.logo .mk { width: 24px; height: 24px; border-radius: 7px; background: var(--accent); display: grid; place-items: center; }
+
+.top { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-in { max-width: 1040px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.nav { display: flex; gap: 18px; font-size: 13.5px; }
+.nav a { color: var(--muted); padding: 4px 0; border-bottom: 2px solid transparent; }
+.nav a:hover { text-decoration: none; color: var(--fg); }
+.nav a.active { color: var(--fg); font-weight: 600; border-color: var(--accent); }
+.iconbtn { position: relative; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); display: grid; place-items: center; background: var(--surface); color: var(--fg); }
+.iconbtn:hover { background: var(--accent-soft); }
+.badge { position: absolute; top: -6px; right: -6px; background: var(--bad); color: #fff; font-size: 10.5px; font-weight: 600; border-radius: 999px; padding: 0 5px; line-height: 17px; min-width: 17px; text-align: center; }
+.av { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 600; font-size: 12px; flex: none; border: 0; }
+.av.sm { width: 24px; height: 24px; font-size: 10px; }
+.menu-wrap { position: relative; }
+.menu { position: absolute; right: 0; top: calc(100% + 8px); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 40px -20px rgba(60, 30, 130, .4); min-width: 220px; z-index: 30; overflow: hidden; }
+.menu .mi { display: block; width: 100%; text-align: left; padding: 10px 14px; background: none; border: 0; color: var(--fg); font-size: 13.5px; }
+.menu .mi:hover { background: var(--accent-soft); }
+.menu .mh { padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+.notif-panel { width: min(380px, calc(100vw - 32px)); max-height: 70vh; overflow: auto; }
+.notif { display: grid; grid-template-columns: 8px 1fr; gap: 10px; padding: 11px 14px; border: 0; border-bottom: 1px solid var(--line); background: none; width: 100%; text-align: left; color: var(--fg); }
+.notif:hover { background: var(--bg); }
+.notif .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
+.notif.unread .dot { background: var(--orange); }
+.notif .ex { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.notif .when { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+
+.page { max-width: 1040px; margin: 0 auto; padding: 22px 16px 60px; }
+.page-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0 11px; color: var(--muted); }
+.search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search input { border: 0; outline: 0; background: none; padding: 9px 0; width: 100%; color: var(--fg); }
+.grp { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; display: flex; justify-content: space-between; align-items: center; }
+.grp button { background: none; border: 0; padding: 0; font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; }
+.empty { text-align: center; color: var(--muted); padding: 36px 16px; background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; }
+
+.trow { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; color: var(--fg); cursor: pointer; }
+.trow:hover { border-color: #cfc3ea; }
+.trow.late { border-left: 3px solid var(--bad); }
+.trow.done .tt { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+.circ { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cfc6e3; background: var(--surface); padding: 0; margin-top: 1px; display: grid; place-items: center; }
+.circ:hover:not(:disabled) { border-color: var(--ok); background: var(--ok-soft); }
+.circ.done { background: var(--ok); border-color: var(--ok); }
+.circ:disabled { cursor: default; }
+.tt { font-weight: 600; overflow-wrap: anywhere; }
+.tm { color: var(--muted); font-size: 12.5px; margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.tr { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; font-size: 12.5px; white-space: nowrap; }
+.pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; display: inline-block; }
+.p-ACIL { background: var(--bad-soft); color: var(--bad-ink); }
+.p-YUKSEK { background: var(--warn-soft); color: var(--warn); }
+.p-ORTA { background: var(--accent-soft); color: var(--accent); }
+.p-DUSUK { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.s-OPEN { background: var(--accent-soft); color: var(--accent); }
+.s-DONE { background: var(--ok-soft); color: var(--ok-ink); }
+.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.tag i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+.late-txt { color: var(--bad-ink); font-weight: 600; }
+
+.detail { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.card h2 { margin-bottom: 12px; }
+.desc { white-space: pre-wrap; overflow-wrap: anywhere; margin: 10px 0 14px; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 13px; margin: 0; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; font-weight: 500; }
+.done-note { background: var(--ok-soft); border-radius: 8px; padding: 10px 12px; margin: 14px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.done-note b { display: block; font-size: 12px; color: var(--ok-ink); margin-bottom: 2px; }
+.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.tl li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 9px; font-size: 13px; }
+.tl .who { font-weight: 600; }
+.tl .when { color: var(--muted); font-size: 11.5px; }
+.quote { display: block; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; margin-top: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.quote.ok { background: var(--ok-soft); border-color: transparent; }
+.quote.bad { background: var(--bad-soft); border-color: transparent; }
+.mention { color: var(--accent); font-weight: 600; }
+.composer { position: relative; margin-top: 14px; }
+.suggest { position: absolute; left: 0; bottom: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 28px -16px rgba(60, 30, 130, .4); min-width: 200px; overflow: hidden; z-index: 5; }
+.suggest button { display: flex; gap: 8px; align-items: center; width: 100%; padding: 8px 10px; background: none; border: 0; text-align: left; color: var(--fg); }
+.suggest button.on, .suggest button:hover { background: var(--accent-soft); }
+
+.backdrop { position: fixed; inset: 0; background: rgba(43, 25, 90, .42); display: grid; place-items: center; padding: 16px; z-index: 50; }
+.modal { background: var(--surface); border-radius: 14px; padding: 20px; width: 100%; max-width: 480px; max-height: calc(100vh - 32px); overflow: auto; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .45); }
+.modal h2 { margin-bottom: 4px; }
+.modal .sub { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+.counter { display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px; }
+.tagpick { display: flex; flex-wrap: wrap; gap: 6px; }
+.tagpick button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 3px 10px; font-size: 12.5px; display: inline-flex; gap: 6px; align-items: center; color: var(--fg); }
+.tagpick button.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.tagpick i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.stat .k { font-size: 12px; color: var(--muted); }
+.stat .v { font-family: var(--font-display); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; margin-top: 4px; }
+.stat.bad .v { color: var(--bad-ink); } .stat.ok .v { color: var(--ok-ink); }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 4px; }
+.legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--fg); }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.tbl-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+table.tbl { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.tbl th, .tbl td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.tbl th { font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+.tbl tr:last-child td { border-bottom: 0; }
+.num { font-variant-numeric: tabular-nums; }
+
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--fg); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13.5px; z-index: 60; box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .5); max-width: calc(100vw - 32px); }
+.toast.err { background: var(--bad-ink); }
+.center { display: grid; place-items: center; min-height: 50vh; color: var(--muted); }
+
+@media (max-width: 760px) {
+  .detail, .charts, .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trow { grid-template-columns: 22px minmax(0, 1fr); }
+  .trow .tr { grid-column: 2; flex-direction: row; align-items: center; justify-content: flex-start; }
+  .nav { order: 3; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div id="app"><div class="center">Yükleniyor…</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+'use strict';
+
+/* =========================================================
+   Ayarlar — sayfaya SADECE publishable anahtar girer.
+   ========================================================= */
+const SUPABASE_URL = 'https://kbpmlngivhjfduepthaz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_5mfnLYDWQtK5gw_8KIX2rg_vMkRCmcB';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* =========================================================
+   Kurallar (veritabanındakilerle aynı)
+   ========================================================= */
+const NOTE_MIN = 10;
+const MAX_TAGS = 5;
+const CODE_TTL = 15 * 60;
+const RESEND_WAIT = 60;
+const PRIORITIES = ['DUSUK', 'ORTA', 'YUKSEK', 'ACIL'];
+const PRIORITY_LABELS = { DUSUK: 'Düşük', ORTA: 'Orta', YUKSEK: 'Yüksek', ACIL: 'Acil' };
+const PRIORITY_RANK = { ACIL: 0, YUKSEK: 1, ORTA: 2, DUSUK: 3 };
+const PASSWORD_RULES = [
+  { label: 'En az 8 karakter', test: (s) => s.length >= 8 },
+  { label: 'Büyük ve küçük harf', test: (s) => /\p{Lu}/u.test(s) && /\p{Ll}/u.test(s) },
+  { label: 'En az bir rakam', test: (s) => /\d/.test(s) },
+];
+const USERNAME_RE = /^[a-z0-9_]{3,20}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TAG_COLORS = ['#6b3fd4', '#ff7a1a', '#1f9d63', '#e0367a', '#1f7ad6', '#c2540a', '#6b6380'];
+
+/* =========================================================
+   Küçük yardımcılar
+   ========================================================= */
+// Güvenli DOM oluşturucu: metinler her zaman textContent olarak eklenir (HTML enjeksiyonu yok).
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'class') el.className = v;
+    else if (k === 'style' && typeof v === 'object') Object.assign(el.style, v);
+    else if (k === 'value' || k === 'checked' || k === 'disabled') el[k] = v;
+    else if (k === 'ref') v(el);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat(Infinity)) if (c != null && c !== false) el.append(c instanceof Node ? c : String(c));
+  return el;
+}
+const svg = (markup) => { const t = document.createElement('template'); t.innerHTML = markup.trim(); return t.content.firstChild; };
+const ICON_CHECK = () => svg('<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 L5 9 L10 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+const ICON_BELL = () => svg('<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 11.5V7a4.5 4.5 0 0 1 9 0v4.5l1 1h-11z M6.5 14a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/></svg>');
+const ICON_SEARCH = () => svg('<svg width="15" height="15" viewBox="0 0 14 14" aria-hidden="true"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M9.5 9.5 L13 13" stroke="currentColor" stroke-width="1.5"/></svg>');
+
+const trLower = (s) => (s || '').toLocaleLowerCase('tr-TR').replace(/\s+/g, ' ').trim();
+const initials = (u) => u.replace(/_/g, '').slice(0, 2).toLocaleUpperCase('tr-TR');
+const pad = (n) => String(n).padStart(2, '0');
+const mmss = (s) => `${Math.floor(s / 60)}:${pad(s % 60)}`;
+const dtf = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+const dtfLong = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+const timeOnly = new Intl.DateTimeFormat('tr-TR', { hour: '2-digit', minute: '2-digit' });
+const fmtLong = (iso) => dtfLong.format(new Date(iso));
+function fmtDue(iso) {
+  const d = new Date(iso), t = new Date();
+  const day = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const diff = Math.round((day(d) - day(t)) / 86400000);
+  if (diff === 0) return `Bugün ${timeOnly.format(d)}`;
+  if (diff === 1) return `Yarın ${timeOnly.format(d)}`;
+  if (diff === -1) return `Dün ${timeOnly.format(d)}`;
+  return dtf.format(d);
+}
+const isOverdue = (iso) => !!iso && new Date(iso).getTime() < Date.now();
+function ago(iso) {
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 60) return 'az önce';
+  if (s < 3600) return `${Math.floor(s / 60)} dk önce`;
+  if (s < 86400) return `${Math.floor(s / 3600)} saat önce`;
+  if (s < 172800) return 'dün';
+  if (s < 30 * 86400) return `${Math.floor(s / 86400)} gün önce`;
+  return dtf.format(new Date(iso));
+}
+function toLocalInput(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+const fromLocalInput = (v) => (v ? new Date(v).toISOString() : null);
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+// Supabase hatalarını Türkçe, anlaşılır mesaja çevirir.
+function errText(e) {
+  const m = (e && (e.message || e.error_description)) || String(e || '');
+  if (/Invalid login credentials/i.test(m)) return 'E-posta veya şifre hatalı.';
+  if (/Email not confirmed/i.test(m)) return 'Hesabın henüz onaylanmadı.';
+  if (/Token has expired or is invalid|otp.*(expired|invalid)/i.test(m)) return 'Kod yanlış ya da süresi dolmuş. Tekrar dene veya yeni kod iste.';
+  const wait = m.match(/after (\d+) seconds?/i);
+  if (wait) return `Yeni kod için ${wait[1]} saniye bekle.`;
+  if (/rate limit/i.test(m)) return 'Çok fazla deneme yapıldı. Biraz sonra tekrar dene.';
+  if (/Database error saving new user/i.test(m)) return 'Bu kullanıcı adı alınmış.';
+  if (/Password should|weak password/i.test(m)) return 'Şifre en az 8 karakter olmalı; büyük harf, küçük harf ve rakam içermeli.';
+  if (/invalid format|valid email/i.test(m)) return 'Geçerli bir e-posta adresi yaz.';
+  if (/Failed to fetch|NetworkError/i.test(m)) return 'Sunucuya ulaşılamadı. İnternet bağlantını kontrol et.';
+  if (/JWT expired/i.test(m)) return 'Oturumun süresi doldu, sayfayı yenile.';
+  return m || 'Beklenmeyen bir hata oldu.';
+}
+async function rpc(name, args) {
+  const { data, error } = await sb.rpc(name, args);
+  if (error) {
+    if (/pasifleştirildi/.test(error.message)) { toast(error.message, 'err'); sb.auth.signOut(); }
+    throw error;
+  }
+  return data;
+}
+
+/* =========================================================
+   Ortak arayüz parçaları
+   ========================================================= */
+function toast(msg, kind) {
+  document.querySelectorAll('.toast').forEach((t) => t.remove());
+  const t = h('div', { class: `toast${kind === 'err' ? ' err' : ''}`, role: 'status' }, msg);
+  document.body.append(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+const logo = () => h('a', { class: 'logo', href: '#/' }, h('span', { class: 'mk' }, svg('<svg width="13" height="13" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5 L5 9 L10 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>')), 'Görevhane');
+const avatar = (name, sm) => h('span', { class: `av${sm ? ' sm' : ''}`, 'aria-hidden': 'true' }, initials(name));
+const priorityPill = (p) => h('span', { class: `pill p-${p}` }, PRIORITY_LABELS[p]);
+const tagChip = (t) => h('span', { class: 'tag' }, h('i', { style: { background: t.color } }), t.name);
+const field = (label, input, hintEl) => h('div', { class: 'field' }, h('label', null, label), input, hintEl);
+
+function richText(text) {
+  return text.split(/(@[a-z0-9_]{3,20})/gi).map((p) => (p.startsWith('@') ? h('span', { class: 'mention' }, p) : p));
+}
+
+function passwordRules(getValue) {
+  const meter = h('div', { class: 'meter', 'aria-hidden': 'true' }, [0, 1, 2, 3].map(() => h('i')));
+  const list = h('ul', { class: 'checks' }, PASSWORD_RULES.map((r) => h('li', null, '○ ' + r.label)));
+  const update = () => {
+    const v = getValue();
+    let score = PASSWORD_RULES.filter((r) => r.test(v)).length + (v && (v.length >= 12 || /[^\p{L}\d]/u.test(v)) ? 1 : 0);
+    if (!v) score = 0;
+    [...meter.children].forEach((i, n) => i.classList.toggle('on', n < Math.min(score, 4)));
+    [...list.children].forEach((li, n) => {
+      const ok = PASSWORD_RULES[n].test(v);
+      li.className = ok ? 'ok' : '';
+      li.textContent = (ok ? '✓ ' : '○ ') + PASSWORD_RULES[n].label;
+    });
+  };
+  return { el: h('div', null, meter, list), update };
+}
+
+// 6 kutulu kod girişi (yapıştırma, geri silme, hızlı yazım desteklenir)
+function codeInput(onChange) {
+  let code = '';
+  const boxes = [];
+  const set = (next) => {
+    code = next.replace(/\D/g, '').slice(0, 6);
+    boxes.forEach((b, i) => (b.value = code[i] || ''));
+    boxes[Math.min(code.length, 5)].focus();
+    onChange(code);
+  };
+  for (let i = 0; i < 6; i++) {
+    boxes.push(h('input', {
+      inputmode: 'numeric', autocomplete: i === 0 ? 'one-time-code' : 'off', 'aria-label': `Kodun ${i + 1}. hanesi`,
+      onfocus: (e) => { if (i > code.length) boxes[code.length].focus(); else e.target.select(); },
+      oninput: (e) => {
+        const typed = e.target.value.replace(/\D/g, '');
+        if (!typed) return set(code.slice(0, i));
+        const digit = typed.length > 1 && code[i] ? typed.replace(code[i], '') || typed : typed;
+        set(code.slice(0, i) + digit);
+      },
+      onkeydown: (e) => { if (e.key === 'Backspace' && !code[i] && i > 0) { e.preventDefault(); set(code.slice(0, i - 1)); } },
+      onpaste: (e) => { e.preventDefault(); set(code.slice(0, i) + e.clipboardData.getData('text')); },
+    }));
+  }
+  return { el: h('div', { class: 'code' }, boxes), clear: () => set(''), focus: () => boxes[0].focus() };
+}
+
+// Geri sayım: her yarım saniyede cb(kalan) çağrılır; bağlı olduğu öğe sayfadan kalkınca durur.
+function countdown(seconds, cb, el) {
+  const end = Date.now() + seconds * 1000;
+  const tick = () => { const left = Math.max(0, Math.round((end - Date.now()) / 1000)); cb(left); return left; };
+  tick();
+  let seen = false;
+  const t = setInterval(() => {
+    if (el.isConnected) seen = true;
+    else if (seen) return clearInterval(t);
+    if (tick() === 0) clearInterval(t);
+  }, 500);
+  return () => clearInterval(t);
+}
+
+function modal(title, sub, body, onClose) {
+  const close = () => { back.remove(); document.removeEventListener('keydown', esc); onClose && onClose(); };
+  const esc = (e) => e.key === 'Escape' && close();
+  const back = h('div', { class: 'backdrop', onmousedown: (e) => e.target === back && close() },
+    h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': title }, h('h2', null, title), sub && h('p', { class: 'sub' }, sub), body));
+  document.addEventListener('keydown', esc);
+  document.body.append(back);
+  return close;
+}
+
+/* =========================================================
+   Oturum, yönlendirme, anlık güncellemeler
+   ========================================================= */
+const state = { session: null, me: null, ready: false, hold: false, unread: 0, notifs: [] };
+let currentView = null;
+let channel = null;
+const listeners = { tasks: new Set() };
+
+function route() {
+  const hash = location.hash.replace(/^#/, '') || '/';
+  const [, a = '', b = ''] = hash.split('/');
+  return { name: a, id: b };
+}
+const go = (path) => { location.hash = '#' + path; };
+
+sb.auth.onAuthStateChange((event, session) => {
+  // Supabase önerisi: bu geri çağırmanın içinde başka Supabase çağrısı beklenmez.
+  setTimeout(() => onSession(event, session), 0);
+});
+
+async function onSession(event, session) {
+  const prevUser = state.me && state.me.id;
+  const newUser = session && session.user.id;
+  state.session = session;
+  if (!session) {
+    state.me = null;
+    stopRealtime();
+  } else if (prevUser !== newUser) {
+    const { data } = await sb.from('profiles').select('id,username,role,status').eq('id', newUser).maybeSingle();
+    if (!data || data.status !== 'ACTIVE') {
+      toast('Hesabına erişilemiyor: hesabın pasifleştirilmiş olabilir.', 'err');
+      await sb.auth.signOut();
+      return;
+    }
+    state.me = data;
+    state.me.email = session.user.email;
+    startRealtime();
+    loadNotifications();
+  }
+  const wasReady = state.ready;
+  state.ready = true;
+  if (state.hold) return; // şifre sıfırlama gibi akışlar bitene kadar ekran değişmez
+  // Saatlik oturum yenilemede ekran yeniden çizilmez (yazılanlar kaybolmasın)
+  if (!wasReady || prevUser !== (state.me && state.me.id)) render();
+}
+
+function startRealtime() {
+  stopRealtime();
+  const uid = state.me.id;
+  const refreshTasks = debounce(() => listeners.tasks.forEach((f) => f()), 400);
+  channel = sb.channel('gorevhane-' + uid)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${uid}` }, async (p) => {
+      const { data } = await sb.from('notifications').select(NOTIF_SELECT).eq('id', p.new.id).maybeSingle();
+      if (!data) return;
+      state.notifs = [data, ...state.notifs].slice(0, 30);
+      state.unread += 1;
+      updateBell();
+      toast(notificationText(data));
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' }, refreshTasks)
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `id=eq.${uid}` }, async (p) => {
+      if (p.new.status === 'DISABLED') {
+        await sb.auth.signOut();
+        toast('Hesabın bir admin tarafından pasifleştirildi.', 'err');
+      } else if (p.new.role !== state.me.role) {
+        state.me.role = p.new.role;
+        render();
+      }
+    })
+    .subscribe();
+}
+function stopRealtime() {
+  if (channel) sb.removeChannel(channel);
+  channel = null;
+}
+
+window.addEventListener('hashchange', () => render());
+
+const PUBLIC_ROUTES = ['giris', 'kayit', 'sifremi-unuttum'];
+function render() {
+  if (!state.ready) return;
+  const r = route();
+  listeners.tasks.clear();
+  document.querySelectorAll('.backdrop').forEach((b) => b.remove());
+  const app = document.getElementById('app');
+  let view;
+  if (!state.me) {
+    if (!PUBLIC_ROUTES.includes(r.name)) return go('/giris');
+    currentView = view = r.name === 'kayit' ? registerPage() : r.name === 'sifremi-unuttum' ? forgotPage() : loginPage();
+  } else {
+    if (PUBLIC_ROUTES.includes(r.name)) return go('/');
+    const page = h('main', { class: 'page' });
+    currentView = view = h('div', null, header(r.name), page);
+    let content;
+    if (r.name === 'gorev' && r.id) content = taskDetailPage(Number(r.id));
+    else if (r.name === 'rapor') content = reportPage();
+    else if (r.name === 'admin' && state.me.role === 'ADMIN') content = adminPage();
+    else if (r.name === '' ) content = tasksPage();
+    else return go('/');
+    page.append(content);
+  }
+  app.replaceChildren(view);
+  window.scrollTo(0, 0);
+}
+
+/* =========================================================
+   Üst çubuk + bildirimler
+   ========================================================= */
+const NOTIF_SELECT = 'id,type,task_id,payload,is_read,created_at,actor:profiles!notifications_actor_id_fkey(id,username)';
+
+function notificationText(n) {
+  const who = n.actor ? `@${n.actor.username}` : 'Biri';
+  const t = n.payload && n.payload.title ? `"${n.payload.title}"` : 'bir görev';
+  return {
+    mention: `${who} ${t} görevinde senden bahsetti`,
+    task_completed: `${who} ${t} görevini tamamladı`,
+    task_reopened: `${who} ${t} görevini yeniden açtı`,
+    comment: `${who} ${t} görevine yorum yazdı`,
+    due_24h: `${t} görevinin son tarihine 1 gün kaldı`,
+    due_1h: `${t} görevinin son tarihine 1 saat kaldı`,
+  }[n.type] || 'Yeni bildirim';
+}
+
+async function loadNotifications() {
+  const [{ data }, { count }] = await Promise.all([
+    sb.from('notifications').select(NOTIF_SELECT).order('created_at', { ascending: false }).limit(30),
+    sb.from('notifications').select('id', { count: 'exact', head: true }).eq('is_read', false),
+  ]);
+  state.notifs = data || [];
+  state.unread = count || 0;
+  updateBell();
+}
+function updateBell() {
+  const btn = document.getElementById('bell');
+  if (!btn) return;
+  btn.setAttribute('aria-label', `Bildirimler, ${state.unread} okunmamış`);
+  const old = btn.querySelector('.badge');
+  if (old) old.remove();
+  if (state.unread > 0) btn.append(h('span', { class: 'badge' }, state.unread > 99 ? '99+' : state.unread));
+}
+
+function dropdown(button, buildMenu) {
+  const wrap = h('div', { class: 'menu-wrap' }, button);
+  let menu = null;
+  const close = () => { if (menu) { menu.remove(); menu = null; document.removeEventListener('mousedown', outside); } };
+  const outside = (e) => { if (!wrap.contains(e.target)) close(); };
+  button.addEventListener('click', () => {
+    if (menu) return close();
+    menu = buildMenu(close);
+    wrap.append(menu);
+    document.addEventListener('mousedown', outside);
+  });
+  return wrap;
+}
+
+function header(active) {
+  const bell = h('button', { class: 'iconbtn', id: 'bell', 'aria-label': 'Bildirimler' }, ICON_BELL());
+  const notifMenu = dropdown(bell, (close) => {
+    const readAll = async () => {
+      await rpc('mark_notifications_read', { p_ids: null });
+      state.notifs.forEach((n) => (n.is_read = true));
+      state.unread = 0;
+      updateBell();
+      close();
+    };
+    return h('div', { class: 'menu notif-panel' },
+      h('div', { class: 'mh row-actions' }, h('b', { style: { color: 'var(--fg)' } }, 'Bildirimler'), h('span', { class: 'spacer' }),
+        state.unread > 0 && h('button', { class: 'linkbtn', onclick: readAll }, 'Tümünü okundu say')),
+      state.notifs.length === 0 && h('div', { class: 'mh' }, 'Henüz bildirimin yok. Biri senden bahsettiğinde veya takip ettiğin bir görev değiştiğinde burada görünür.'),
+      state.notifs.map((n) => h('button', {
+        class: `notif${n.is_read ? '' : ' unread'}`,
+        onclick: async () => {
+          close();
+          if (!n.is_read) {
+            n.is_read = true;
+            state.unread = Math.max(0, state.unread - 1);
+            updateBell();
+            rpc('mark_notifications_read', { p_ids: [n.id] }).catch(() => {});
+          }
+          if (n.task_id) go('/gorev/' + n.task_id);
+        },
+      }, h('span', { class: 'dot' }), h('span', null, h('span', null, notificationText(n)),
+        n.payload && n.payload.excerpt && h('span', { class: 'ex' }, n.payload.excerpt), h('span', { class: 'when' }, ago(n.created_at))))));
+  });
+  const userMenu = dropdown(h('button', { class: 'av', 'aria-label': 'Hesap menüsü', style: { cursor: 'pointer' } }, initials(state.me.username)), () =>
+    h('div', { class: 'menu' },
+      h('div', { class: 'mh' }, h('b', { style: { color: 'var(--fg)' } }, '@' + state.me.username), h('br'), state.me.email,
+        state.me.role === 'ADMIN' && h('div', null, h('span', { class: 'pill s-OPEN', style: { marginTop: '4px' } }, 'Admin'))),
+      h('button', { class: 'mi', onclick: async () => { await sb.auth.signOut(); go('/giris'); } }, 'Çıkış yap')));
+  const el = h('header', { class: 'top' }, h('div', { class: 'top-in' }, logo(),
+    h('nav', { class: 'nav' },
+      h('a', { href: '#/', class: active === '' || active === 'gorev' ? 'active' : '' }, 'Görevler'),
+      h('a', { href: '#/rapor', class: active === 'rapor' ? 'active' : '' }, 'Rapor'),
+      state.me.role === 'ADMIN' && h('a', { href: '#/admin', class: active === 'admin' ? 'active' : '' }, 'Admin')),
+    h('span', { class: 'spacer' }), notifMenu, userMenu));
+  setTimeout(updateBell, 0);
+  return el;
+}
+
+/* =========================================================
+   Giriş
+   ========================================================= */
+function loginPage() {
+  let email = '', password = '';
+  const alert = h('div', { class: 'alert err', hidden: true });
+  const btn = h('button', { class: 'btn block', disabled: true }, 'Giriş yap');
+  const sync = () => (btn.disabled = !email || !password);
+  const form = h('form', {
+    class: 'auth-card', novalidate: true,
+    onsubmit: async (e) => {
+      e.preventDefault();
+      alert.hidden = true;
+      btn.disabled = true;
+      btn.textContent = 'Giriş yapılıyor…';
+      const { error } = await sb.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+      if (error) {
+        if (/Email not confirmed/i.test(error.message)) {
+          // Onaysız hesap: yeni kod gönder ve kod ekranına geç
+          await sb.auth.resend({ type: 'signup', email: email.trim().toLowerCase() });
+          sessionStorage.setItem('verifyEmail', email.trim().toLowerCase());
+          return go('/kayit');
+        }
+        alert.textContent = errText(error);
+        alert.hidden = false;
+        btn.textContent = 'Giriş yap';
+        sync();
+      }
+    },
+  },
+  logo(), h('h1', null, 'Giriş yap'), h('p', { class: 'sub' }, 'Ekibinin ortak görev panosuna hoş geldin.'), alert,
+  field('E-posta', h('input', { id: 'login-email', class: 'input', type: 'email', autocomplete: 'email', oninput: (e) => { email = e.target.value; sync(); } })),
+  field('Şifre', h('input', { id: 'login-password', class: 'input', type: 'password', autocomplete: 'current-password', oninput: (e) => { password = e.target.value; sync(); } })),
+  h('div', { class: 'row-actions', style: { marginBottom: '14px' } }, h('span', { class: 'spacer' }), h('a', { href: '#/sifremi-unuttum', style: { fontSize: '13px' } }, 'Şifremi unuttum')),
+  btn,
+  h('div', { class: 'auth-foot' }, 'Hesabın yok mu? ', h('a', { href: '#/kayit' }, 'Kayıt ol')));
+  setTimeout(() => form.querySelector('#login-email').focus(), 0);
+  return h('div', { class: 'auth-wrap' }, form);
+}
+
+/* =========================================================
+   Kayıt: 1) bilgiler 2) e-posta kodu
+   ========================================================= */
+function registerPage() {
+  const pending = sessionStorage.getItem('verifyEmail');
+  sessionStorage.removeItem('verifyEmail');
+  const f = { username: '', email: pending || '', password: '', password2: '' };
+  const card = h('div', { class: 'auth-card' });
+  const wrap = h('div', { class: 'auth-wrap' }, card);
+
+  function stepInfo() {
+    const alert = h('div', { class: 'alert err', hidden: true });
+    const errs = {};
+    const hintOf = (k, def) => (errs[k] = h('div', { class: 'hint' }, def || ''));
+    const pw = passwordRules(() => f.password);
+    const btn = h('button', { class: 'btn block', disabled: true }, 'Kayıt ol');
+    const validate = () => {
+      const u = f.username.trim().toLowerCase();
+      const userOk = USERNAME_RE.test(u);
+      errs.username.className = 'hint' + (f.username && !userOk ? ' err' : f.username ? ' ok' : '');
+      errs.username.textContent = !f.username ? 'Küçük harf, rakam ve _ (3–20 karakter)' : userOk ? `Görünecek ad: @${u}` : 'Sadece küçük harf, rakam ve _ kullan (3–20 karakter)';
+      const emailOk = EMAIL_RE.test(f.email.trim());
+      errs.email.className = 'hint err';
+      errs.email.textContent = f.email && !emailOk ? 'Geçerli bir e-posta adresi yaz' : '';
+      const pwOk = PASSWORD_RULES.every((r) => r.test(f.password));
+      const same = f.password === f.password2;
+      errs.password2.className = 'hint err';
+      errs.password2.textContent = f.password2 && !same ? 'Şifreler aynı değil' : '';
+      pw.update();
+      btn.disabled = !(userOk && emailOk && pwOk && same && f.password2);
+    };
+    const inp = (k, attrs) => h('input', Object.assign({ id: 'reg-' + k, class: 'input', value: f[k], oninput: (e) => { f[k] = e.target.value; validate(); } }, attrs));
+    card.replaceChildren(
+      logo(), h('h1', null, 'Kayıt ol'), h('p', { class: 'sub' }, 'Hesabını oluştur, e-postana gelecek kodla onayla.'),
+      h('div', { class: 'steps' }, h('span', { class: 'on' }, '1 · Bilgiler'), h('span', null, '2 · E-posta onayı')),
+      alert,
+      h('form', {
+        novalidate: true,
+        onsubmit: async (e) => {
+          e.preventDefault();
+          alert.hidden = true;
+          btn.disabled = true;
+          btn.textContent = 'Kod gönderiliyor…';
+          const username = f.username.trim().toLowerCase();
+          const email = f.email.trim().toLowerCase();
+          try {
+            if (!(await rpc('username_available', { p_username: username }))) throw new Error('Bu kullanıcı adı alınmış.');
+            const { data, error } = await sb.auth.signUp({ email, password: f.password, options: { data: { username } } });
+            if (error) throw error;
+            if (data.user && data.user.identities && data.user.identities.length === 0) throw new Error('Bu e-posta ile zaten bir hesap var. Giriş yapmayı dene.');
+            if (data.session) return; // onay kapalıysa doğrudan giriş yapılır
+            f.email = email;
+            stepCode(false);
+          } catch (err) {
+            alert.textContent = errText(err);
+            alert.hidden = false;
+            btn.textContent = 'Kayıt ol';
+            validate();
+          }
+        },
+      },
+      field('Kullanıcı adı', inp('username', { autocomplete: 'username' }), hintOf('username', 'Küçük harf, rakam ve _ (3–20 karakter)')),
+      field('E-posta', inp('email', { type: 'email', autocomplete: 'email' }), hintOf('email')),
+      field('Şifre', inp('password', { type: 'password', autocomplete: 'new-password' }), pw.el),
+      field('Şifre tekrar', inp('password2', { type: 'password', autocomplete: 'new-password' }), hintOf('password2')),
+      btn),
+      h('div', { class: 'auth-foot' }, 'Zaten hesabın var mı? ', h('a', { href: '#/giris' }, 'Giriş yap')));
+    validate();
+    setTimeout(() => card.querySelector('#reg-username').focus(), 0);
+  }
+
+  function stepCode(canResendNow) {
+    let code = '';
+    const alert = h('div', { class: 'alert err', hidden: true });
+    const expires = h('span');
+    const btn = h('button', { class: 'btn', disabled: true }, 'Kaydı tamamla');
+    const resendBtn = h('button', { type: 'button', class: 'btn ghost' }, 'Kodu yeniden gönder');
+    const ci = codeInput((v) => { code = v; btn.disabled = v.length !== 6; });
+    let stopExp = () => {}, stopRes = () => {};
+    const startTimers = (resendWait) => {
+      stopExp(); stopRes();
+      stopExp = countdown(CODE_TTL, (left) => {
+        expires.replaceChildren(left > 0 ? h('span', null, 'Kodun süresi: ', h('b', null, mmss(left))) : h('span', { class: 'late-txt' }, 'Kodun süresi doldu, yeni kod iste'));
+      }, expires);
+      stopRes = countdown(resendWait, (left) => {
+        resendBtn.disabled = left > 0;
+        resendBtn.textContent = 'Kodu yeniden gönder' + (left > 0 ? ` (${mmss(left)})` : '');
+      }, resendBtn);
+    };
+    resendBtn.addEventListener('click', async () => {
+      alert.hidden = true;
+      const { error } = await sb.auth.resend({ type: 'signup', email: f.email });
+      if (error) { alert.textContent = errText(error); alert.hidden = false; return; }
+      toast('Yeni kod gönderildi.');
+      ci.clear();
+      startTimers(RESEND_WAIT);
+    });
+    card.replaceChildren(
+      logo(), h('h1', null, 'E-postanı kontrol et'),
+      h('p', { class: 'sub' }, h('b', null, f.email), ' adresine 6 haneli bir kod gönderdik. Gelmediyse spam klasörüne bak.'),
+      h('div', { class: 'steps' }, h('span', { class: 'past' }, '✓ Bilgiler'), h('span', { class: 'on' }, '2 · E-posta onayı')),
+      alert,
+      h('form', {
+        novalidate: true,
+        onsubmit: async (e) => {
+          e.preventDefault();
+          if (code.length !== 6) return;
+          btn.disabled = true;
+          btn.textContent = 'Kontrol ediliyor…';
+          alert.hidden = true;
+          const { error } = await sb.auth.verifyOtp({ email: f.email, token: code, type: 'email' });
+          if (error) {
+            alert.textContent = errText(error);
+            alert.hidden = false;
+            btn.textContent = 'Kaydı tamamla';
+            ci.clear();
+            return;
+          }
+          toast('Kayıt tamamlandı. Hoş geldin!');
+          go('/');
+        },
+      }, ci.el, h('div', { class: 'code-meta' }, expires, h('span', null, '')),
+      h('div', { class: 'row-actions', style: { marginTop: '16px' } }, btn, resendBtn)),
+      h('p', { class: 'hint', style: { marginTop: '14px' } }, 'E-posta adresini yanlış mı yazdın? ',
+        h('button', { type: 'button', class: 'linkbtn', onclick: () => { stopExp(); stopRes(); stepInfo(); } }, 'Geri dön ve düzelt')));
+    startTimers(canResendNow ? 0 : RESEND_WAIT);
+    setTimeout(ci.focus, 0);
+  }
+
+  pending ? stepCode(false) : stepInfo();
+  return wrap;
+}
+
+/* =========================================================
+   Şifremi unuttum: 1) e-posta 2) kod + yeni şifre (2 kez)
+   ========================================================= */
+function forgotPage() {
+  const card = h('div', { class: 'auth-card' });
+  let email = '';
+  function step1() {
+    const alert = h('div', { class: 'alert err', hidden: true });
+    const btn = h('button', { class: 'btn block', disabled: true }, 'Kod gönder');
+    card.replaceChildren(logo(), h('h1', null, 'Şifreni sıfırla'), h('p', { class: 'sub' }, 'Hesabının e-posta adresini yaz, sana bir kod gönderelim.'), alert,
+      h('form', {
+        novalidate: true,
+        onsubmit: async (e) => {
+          e.preventDefault();
+          btn.disabled = true;
+          const { error } = await sb.auth.resetPasswordForEmail(email.trim().toLowerCase());
+          if (error) { alert.textContent = errText(error); alert.hidden = false; btn.disabled = false; return; }
+          email = email.trim().toLowerCase();
+          step2();
+        },
+      }, field('E-posta', h('input', { id: 'forgot-email', class: 'input', type: 'email', value: email, oninput: (e) => { email = e.target.value; btn.disabled = !EMAIL_RE.test(email.trim()); } })), btn),
+      h('div', { class: 'auth-foot' }, h('a', { href: '#/giris' }, 'Girişe dön')));
+    setTimeout(() => card.querySelector('#forgot-email').focus(), 0);
+  }
+  function step2() {
+    let code = '', p1 = '', p2 = '';
+    const alert = h('div', { class: 'alert err', hidden: true });
+    const pw = passwordRules(() => p1);
+    const mismatch = h('div', { class: 'hint err' });
+    const btn = h('button', { class: 'btn', disabled: true }, 'Şifreyi değiştir');
+    const sync = () => {
+      pw.update();
+      mismatch.textContent = p2 && p1 !== p2 ? 'Şifreler aynı değil' : '';
+      btn.disabled = !(code.length === 6 && PASSWORD_RULES.every((r) => r.test(p1)) && p1 === p2);
+    };
+    const ci = codeInput((v) => { code = v; sync(); });
+    card.replaceChildren(logo(), h('h1', null, 'Şifreni sıfırla'),
+      h('p', { class: 'sub' }, 'Bu e-posta ile bir hesap varsa ', h('b', null, email), ' adresine 6 haneli bir kod gönderdik.'), alert,
+      h('form', {
+        novalidate: true,
+        onsubmit: async (e) => {
+          e.preventDefault();
+          btn.disabled = true;
+          alert.hidden = true;
+          state.hold = true; // kod doğrulanınca oturum açılır; yeni şifre kaydedilene kadar ekran değişmesin
+          const v = await sb.auth.verifyOtp({ email, token: code, type: 'recovery' });
+          if (v.error) { state.hold = false; alert.textContent = errText(v.error); alert.hidden = false; ci.clear(); return; }
+          const u = await sb.auth.updateUser({ password: p1 });
+          state.hold = false;
+          if (u.error) { await sb.auth.signOut(); alert.textContent = errText(u.error); alert.hidden = false; sync(); return; }
+          toast('Şifren değişti.');
+          location.hash = '#/';
+          render();
+        },
+      },
+      field('E-postana gelen kod', ci.el),
+      field('Yeni şifre', h('input', { id: 'reset-p1', class: 'input', type: 'password', autocomplete: 'new-password', oninput: (e) => { p1 = e.target.value; sync(); } }), pw.el),
+      field('Yeni şifre tekrar', h('input', { id: 'reset-p2', class: 'input', type: 'password', autocomplete: 'new-password', oninput: (e) => { p2 = e.target.value; sync(); } }), mismatch),
+      h('div', { class: 'row-actions' }, btn, h('button', { type: 'button', class: 'btn ghost', onclick: step1 }, 'Yeni kod iste'))),
+      h('div', { class: 'auth-foot' }, h('a', { href: '#/giris' }, 'Girişe dön')));
+    pw.update();
+    setTimeout(ci.focus, 0);
+  }
+  step1();
+  return h('div', { class: 'auth-wrap' }, card);
+}
+
+/* =========================================================
+   Görev formu, tamamlama penceresi
+   ========================================================= */
+let tagCache = null;
+async function loadTags(force) {
+  if (force || !tagCache) {
+    const { data } = await sb.from('tags').select('id,name,color').order('name');
+    tagCache = data || [];
+  }
+  return tagCache;
+}
+
+function taskForm(v) {
+  const err = { title: h('div', { class: 'hint err' }), due: h('div', { class: 'hint err' }) };
+  const tagBox = h('div', { class: 'tagpick' }, h('span', { class: 'hint' }, 'Etiketler yükleniyor…'));
+  loadTags().then((tags) => {
+    if (!tags.length) return tagBox.replaceChildren(h('span', { class: 'hint' }, 'Henüz etiket yok. Etiketleri admin ekler.'));
+    tagBox.replaceChildren(...tags.map((t) => {
+      const b = h('button', { type: 'button', 'aria-pressed': String(v.tagIds.includes(t.id)), class: v.tagIds.includes(t.id) ? 'on' : '' }, h('i', { style: { background: t.color } }), t.name);
+      b.addEventListener('click', () => {
+        if (v.tagIds.includes(t.id)) v.tagIds = v.tagIds.filter((x) => x !== t.id);
+        else if (v.tagIds.length < MAX_TAGS) v.tagIds = [...v.tagIds, t.id];
+        else return toast(`En fazla ${MAX_TAGS} etiket seçilebilir.`, 'err');
+        b.classList.toggle('on', v.tagIds.includes(t.id));
+        b.setAttribute('aria-pressed', String(v.tagIds.includes(t.id)));
+      });
+      return b;
+    }));
+  });
+  const el = h('div', null,
+    field('Başlık', h('input', { id: 'task-title', class: 'input', maxlength: '120', value: v.title, oninput: (e) => (v.title = e.target.value) }), err.title),
+    field('Açıklama (isteğe bağlı)', h('textarea', { id: 'task-desc', class: 'textarea', maxlength: '5000', oninput: (e) => (v.description = e.target.value) }, v.description)),
+    h('div', { class: 'grid2' },
+      field('Öncelik', h('select', { id: 'task-priority', class: 'select', onchange: (e) => (v.priority = e.target.value) },
+        PRIORITIES.map((p) => h('option', { value: p, selected: p === v.priority }, PRIORITY_LABELS[p])))),
+      field('Son tarih (isteğe bağlı)', h('input', { id: 'task-due', class: 'input', type: 'datetime-local', value: toLocalInput(v.dueAt), min: toLocalInput(new Date().toISOString()), onchange: (e) => (v.dueAt = fromLocalInput(e.target.value)) }), err.due)),
+    field(`Etiketler (en fazla ${MAX_TAGS})`, tagBox));
+  const validate = () => {
+    err.title.textContent = v.title.trim().length < 3 ? 'Başlık en az 3 karakter olmalı' : '';
+    err.due.textContent = v.dueAt && new Date(v.dueAt) < new Date(Date.now() - 60000) ? 'Son tarih geçmişte olamaz' : '';
+    return !err.title.textContent && !err.due.textContent;
+  };
+  setTimeout(() => el.querySelector('#task-title').focus(), 0);
+  return { el, validate };
+}
+
+function newTaskModal() {
+  const v = { title: '', description: '', priority: 'ORTA', dueAt: null, tagIds: [] };
+  const f = taskForm(v);
+  const alert = h('div', { class: 'alert err', hidden: true });
+  const btn = h('button', { class: 'btn cta' }, 'Görevi ekle');
+  let close;
+  const form = h('form', {
+    novalidate: true,
+    onsubmit: async (e) => {
+      e.preventDefault();
+      if (!f.validate()) return;
+      btn.disabled = true;
+      try {
+        const id = await rpc('create_task', { p_title: v.title, p_description: v.description, p_priority: v.priority, p_due_at: v.dueAt, p_tag_ids: v.tagIds });
+        close();
+        toast('Görev eklendi.');
+        go('/gorev/' + id);
+      } catch (err) {
+        alert.textContent = errText(err);
+        alert.hidden = false;
+        btn.disabled = false;
+      }
+    },
+  }, alert, f.el, h('div', { class: 'row-actions', style: { justifyContent: 'flex-end' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => close() }, 'Vazgeç'), btn));
+  close = modal('Yeni görev', 'Görev herkese açık panoya eklenir; oluşturan olarak senin adın görünür.', form);
+}
+
+// Tamamlama ve yeniden açma: ikisinde de en az 10 karakter zorunlu
+function noteModal(kind, title, onSubmit) {
+  const isComplete = kind === 'complete';
+  let text = '';
+  const alert = h('div', { class: 'alert err', hidden: true });
+  const status = h('span', { class: 'hint err' }, `En az ${NOTE_MIN} karakter gerekli`);
+  const cnt = h('span', { class: 'hint', style: { fontFamily: 'var(--font-mono)' } }, `0 / ${NOTE_MIN}`);
+  const btn = h('button', { class: isComplete ? 'btn ok' : 'btn', disabled: true }, isComplete ? 'Tamamlandı olarak işaretle' : 'Yeniden aç');
+  const ta = h('textarea', {
+    id: 'note-text', class: 'textarea', maxlength: '2000', 'aria-describedby': 'note-count',
+    placeholder: isComplete ? 'Örn. Sertifika yenilendi, tarayıcıda kontrol edildi.' : 'Örn. Sorun bugün tekrar başladı, müşteri bildirdi.',
+    oninput: (e) => {
+      text = e.target.value;
+      const len = text.trim().length;
+      cnt.textContent = `${len} / ${NOTE_MIN}`;
+      const ok = len >= NOTE_MIN;
+      status.className = ok ? 'hint ok' : 'hint err';
+      status.textContent = ok ? 'Açıklama yeterli' : `En az ${NOTE_MIN} karakter gerekli`;
+      btn.disabled = !ok;
+    },
+  });
+  let close;
+  const form = h('form', {
+    novalidate: true,
+    onsubmit: async (e) => {
+      e.preventDefault();
+      if (text.trim().length < NOTE_MIN) return;
+      btn.disabled = true;
+      btn.textContent = 'Kaydediliyor…';
+      try {
+        await onSubmit(text.trim());
+        close();
+      } catch (err) {
+        alert.textContent = errText(err);
+        alert.hidden = false;
+        btn.disabled = false;
+        btn.textContent = isComplete ? 'Tamamlandı olarak işaretle' : 'Yeniden aç';
+      }
+    },
+  }, alert, ta, h('div', { class: 'counter', id: 'note-count' }, status, cnt),
+  h('div', { class: 'row-actions', style: { justifyContent: 'flex-end', marginTop: '14px' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => close() }, 'Vazgeç'), btn));
+  close = modal(isComplete ? 'Görevi tamamla' : 'Görevi yeniden aç',
+    isComplete ? `"${title}" için ne yaptığını kısaca yaz. Bu açıklama görevde kalıcı olarak görünecek.` : `"${title}" neden yeniden açılıyor? Sebep geçmişte kalır ve takipçilere bildirilir.`, form);
+  setTimeout(() => ta.focus(), 0);
+}
+
+/* =========================================================
+   Görev listesi
+   ========================================================= */
+const TASK_LIST_SELECT = 'id,title,priority,due_at,status,created_at,updated_at,completed_at,' +
+  'created_by:profiles!tasks_created_by_fkey(id,username),updated_by:profiles!tasks_updated_by_fkey(id,username),' +
+  'completed_by:profiles!tasks_completed_by_fkey(id,username),task_tags(tags(id,name,color)),comments(count)';
+const escLike = (s) => s.replace(/[\\%_]/g, (c) => '\\' + c);
+
+function taskRow(t, onComplete) {
+  const done = t.status === 'DONE';
+  const late = !done && isOverdue(t.due_at);
+  const tags = (t.task_tags || []).map((x) => x.tags).filter(Boolean);
+  const comments = (t.comments && t.comments[0] && t.comments[0].count) || 0;
+  const who = done
+    ? `@${t.completed_by ? t.completed_by.username : '?'} tamamladı · ${ago(t.completed_at)}`
+    : t.updated_by && t.updated_by.id !== t.created_by.id && t.updated_at !== t.created_at
+      ? `@${t.created_by.username} açtı · @${t.updated_by.username} düzenledi · ${ago(t.updated_at)}`
+      : `@${t.created_by.username} açtı · ${ago(t.created_at)}`;
+  const open = () => go('/gorev/' + t.id);
+  return h('div', { class: `trow${late ? ' late' : ''}${done ? ' done' : ''}`, role: 'link', tabindex: '0', onclick: open, onkeydown: (e) => e.key === 'Enter' && open() },
+    h('button', {
+      class: `circ${done ? ' done' : ''}`, disabled: done, title: done ? 'Tamamlandı' : 'Tamamla',
+      'aria-label': done ? 'Tamamlandı' : `"${t.title}" görevini tamamla`,
+      onclick: (e) => { e.stopPropagation(); onComplete && onComplete(t); },
+    }, done && ICON_CHECK()),
+    h('div', { style: { minWidth: '0' } }, h('div', { class: 'tt' }, t.title),
+      h('div', { class: 'tm' }, tags.map(tagChip), h('span', null, who), comments > 0 && h('span', null, `· ${comments} yorum`))),
+    h('div', { class: 'tr' }, priorityPill(t.priority),
+      !done && (t.due_at ? h('span', { class: late ? 'late-txt' : '' }, fmtDue(t.due_at) + (late ? ' · gecikti' : '')) : h('span', { class: 'hint' }, 'Tarih yok'))));
+}
+
+function tasksPage() {
+  let q = '';
+  let showDone = false;
+  let doneLimit = 20;
+  const openTitle = h('span', null, 'Açık · …');
+  const openList = h('div');
+  const doneBtn = h('button', { 'aria-expanded': 'false' }, '▸ Tamamlandı · …');
+  const doneState = h('span', null, 'katlanmış');
+  const doneList = h('div', { hidden: true });
+
+  const complete = (t) => noteModal('complete', t.title, async (note) => {
+    await rpc('complete_task', { p_id: t.id, p_note: note });
+    toast('Görev tamamlandı.');
+    load();
+  });
+
+  async function load() {
+    const filter = (query) => (q ? query.like('search_text', `%${escLike(trLower(q))}%`) : query);
+    const [o, d] = await Promise.all([
+      filter(sb.from('tasks').select(TASK_LIST_SELECT, { count: 'exact' }).eq('status', 'OPEN').is('deleted_at', null)).limit(300),
+      filter(sb.from('tasks').select(TASK_LIST_SELECT, { count: 'exact' }).eq('status', 'DONE').is('deleted_at', null)).order('completed_at', { ascending: false }).limit(doneLimit),
+    ]);
+    if (o.error || d.error) return toast(errText(o.error || d.error), 'err');
+    // Açık görevler: son tarihe göre (tarihsizler en sonda), sonra önceliğe, sonra yeniye göre
+    const open = o.data.sort((a, b) =>
+      (a.due_at ? new Date(a.due_at) : Infinity) - (b.due_at ? new Date(b.due_at) : Infinity) ||
+      PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority] || new Date(b.created_at) - new Date(a.created_at));
+    openTitle.textContent = `Açık · ${o.count}`;
+    openList.replaceChildren(...(open.length ? open.map((t) => taskRow(t, complete)) : [h('div', { class: 'empty' }, q ? `"${q}" ile eşleşen açık görev yok.` : 'Açık görev yok. "+ Yeni görev" ile ilk görevi ekle.')]));
+    doneBtn.textContent = `${showDone ? '▾' : '▸'} Tamamlandı · ${d.count}`;
+    doneList.replaceChildren(
+      ...(d.data.length ? d.data.map((t) => taskRow(t)) : [h('div', { class: 'empty' }, q ? 'Eşleşen tamamlanmış görev yok.' : 'Henüz tamamlanan görev yok.')]),
+      d.count > d.data.length ? h('button', { class: 'btn ghost block', onclick: () => { doneLimit += 20; load(); } }, `Daha fazla göster (${d.count - d.data.length} kaldı)`) : '');
+  }
+  doneBtn.addEventListener('click', () => {
+    showDone = !showDone;
+    doneList.hidden = !showDone;
+    doneBtn.setAttribute('aria-expanded', String(showDone));
+    doneBtn.textContent = doneBtn.textContent.replace(/^[▸▾]/, showDone ? '▾' : '▸');
+    doneState.textContent = showDone ? 'en yeni üstte' : 'katlanmış';
+  });
+  const search = debounce(load, 250);
+  listeners.tasks.add(load);
+  load();
+  return h('div', null,
+    h('div', { class: 'page-head' }, h('h1', null, 'Tüm görevler'), h('span', { class: 'spacer' }), h('button', { class: 'btn cta', onclick: newTaskModal }, '+ Yeni görev')),
+    h('label', { class: 'search' }, ICON_SEARCH(), h('input', { id: 'search', placeholder: 'Görevlerde ara (başlık ve açıklama)…', 'aria-label': 'Görevlerde ara', oninput: (e) => { q = e.target.value; search(); } })),
+    h('div', { class: 'grp' }, openTitle, h('span', null, 'son tarihe göre')), openList,
+    h('div', { class: 'grp' }, doneBtn, doneState), doneList);
+}
+
+/* =========================================================
+   Görev detayı
+   ========================================================= */
+const TASK_DETAIL_SELECT = TASK_LIST_SELECT + ',description,completion_note,version,deleted_at,task_followers(profiles(id,username))';
+const FIELD_NAMES = { title: 'başlığı', priority: 'önceliği', dueAt: 'son tarihi', tags: 'etiketleri' };
+function fmtVal(f, v) {
+  if (v === null || v === undefined || v === '') return 'yok';
+  if (f === 'priority') return PRIORITY_LABELS[v] || v;
+  if (f === 'dueAt') return fmtLong(v);
+  if (f === 'tags') return v.length ? v.join(', ') : 'yok';
+  return String(v);
+}
+function activityNodes(a) {
+  switch (a.action) {
+    case 'task.created': return ['görevi oluşturdu'];
+    case 'task.updated': return Object.entries(a.changes).map(([f, c], i) => [i > 0 ? ', ' : '',
+      f === 'description' ? 'açıklamayı değiştirdi' : [FIELD_NAMES[f] || f, ' ', h('b', null, fmtVal(f, c.from)), ' → ', h('b', null, fmtVal(f, c.to)), ' yaptı']]);
+    case 'task.completed': return ['görevi ', h('b', { style: { color: 'var(--ok-ink)' } }, 'tamamladı'), h('span', { class: 'quote ok' }, a.changes.note)];
+    case 'task.reopened': return ['görevi ', h('b', null, 'yeniden açtı'), h('span', { class: 'quote bad' }, a.changes.reason)];
+    case 'task.deleted': return ['görevi sildi'];
+    case 'task.restored': return ['görevi geri aldı'];
+    default: return [a.action];
+  }
+}
+
+function composer(taskId, onPosted) {
+  let sugs = [], sel = 0;
+  const box = h('div', { class: 'suggest', role: 'listbox', hidden: true });
+  const err = h('div', { class: 'hint err' });
+  const send = h('button', { class: 'btn sm', disabled: true }, 'Yorum yaz');
+  const ta = h('textarea', { id: 'comment-body', class: 'textarea', style: { minHeight: '70px' }, maxlength: '2000', placeholder: 'Yorum yaz… Birinden bahsetmek için @ yaz.' });
+  const mentionAt = () => {
+    const upto = ta.value.slice(0, ta.selectionStart);
+    const m = upto.match(/(^|\s)@([a-z0-9_]{0,20})$/i);
+    return m ? { start: upto.length - m[2].length - 1, q: m[2].toLowerCase() } : null;
+  };
+  const drawSugs = () => {
+    box.hidden = !sugs.length;
+    box.replaceChildren(...sugs.map((u, i) => h('button', { type: 'button', class: i === sel ? 'on' : '', onmousedown: (e) => { e.preventDefault(); pick(u); } }, avatar(u.username, true), '@' + u.username)));
+  };
+  const pick = (u) => {
+    const m = mentionAt();
+    if (!m) return;
+    ta.value = ta.value.slice(0, m.start) + `@${u.username} ` + ta.value.slice(ta.selectionStart);
+    const pos = m.start + u.username.length + 2;
+    ta.setSelectionRange(pos, pos);
+    ta.focus();
+    sugs = [];
+    drawSugs();
+  };
+  const submit = async () => {
+    if (!ta.value.trim()) return;
+    send.disabled = true;
+    try {
+      await rpc('add_comment', { p_task: taskId, p_body: ta.value });
+      ta.value = '';
+      onPosted();
+    } catch (e) {
+      err.textContent = errText(e);
+    } finally {
+      send.disabled = !ta.value.trim();
+    }
+  };
+  ta.addEventListener('input', async () => {
+    err.textContent = '';
+    send.disabled = !ta.value.trim();
+    const m = mentionAt();
+    if (!m) { sugs = []; return drawSugs(); }
+    const { data } = await sb.from('profiles').select('id,username').eq('status', 'ACTIVE').like('username', `${escLike(m.q)}%`).order('username').limit(8);
+    sugs = data || [];
+    sel = 0;
+    drawSugs();
+  });
+  ta.addEventListener('keydown', (e) => {
+    if (sugs.length) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); sel = (sel + 1) % sugs.length; return drawSugs(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); sel = (sel - 1 + sugs.length) % sugs.length; return drawSugs(); }
+      if (e.key === 'Enter' || e.key === 'Tab') { e.preventDefault(); return pick(sugs[sel]); }
+      if (e.key === 'Escape') { sugs = []; return drawSugs(); }
+    }
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submit();
+  });
+  return h('form', { class: 'composer', onsubmit: (e) => { e.preventDefault(); submit(); } }, box, ta, err,
+    h('div', { class: 'row-actions', style: { marginTop: '8px' } }, h('span', { class: 'hint' }, 'Ctrl + Enter ile gönder'), h('span', { class: 'spacer' }), send));
+}
+
+function taskDetailPage(id) {
+  const root = h('div', null, h('div', { class: 'center' }, 'Yükleniyor…'));
+  const isAdmin = state.me.role === 'ADMIN';
+  let task = null;
+  let editing = null;
+
+  async function load() {
+    if (editing) return; // düzenleme sürerken ekranı değiştirme
+    const [t, a, c] = await Promise.all([
+      sb.from('tasks').select(TASK_DETAIL_SELECT).eq('id', id).maybeSingle(),
+      sb.from('activity_logs').select('id,action,changes,created_at,actor:profiles!activity_logs_actor_id_fkey(id,username)').eq('task_id', id).order('created_at').order('id'),
+      sb.from('comments').select('id,body,created_at,author:profiles!comments_author_id_fkey(id,username)').eq('task_id', id).order('created_at'),
+    ]);
+    if (t.error) return toast(errText(t.error), 'err');
+    if (!t.data) return root.replaceChildren(h('div', { class: 'empty' }, 'Görev bulunamadı. Silinmiş olabilir. ', h('a', { href: '#/' }, 'Görev listesine dön')));
+    task = t.data;
+    draw(a.data || [], c.data || []);
+  }
+
+  function draw(activity, comments) {
+    const done = task.status === 'DONE';
+    const late = !done && isOverdue(task.due_at);
+    const tags = (task.task_tags || []).map((x) => x.tags).filter(Boolean);
+    const followers = (task.task_followers || []).map((x) => x.profiles).filter(Boolean);
+    const following = followers.some((f) => f.id === state.me.id);
+
+    const actions = h('div', { class: 'row-actions', style: { marginTop: '16px' } });
+    if (!task.deleted_at) {
+      if (!done) {
+        actions.append(
+          h('button', { class: 'btn ok', onclick: () => noteModal('complete', task.title, async (note) => { await rpc('complete_task', { p_id: id, p_note: note }); toast('Görev tamamlandı.'); load(); }) }, '✓ Tamamla'),
+          h('button', { class: 'btn ghost', onclick: () => startEdit() }, 'Düzenle'));
+      }
+      if (done && isAdmin) {
+        actions.append(h('button', { class: 'btn', onclick: () => noteModal('reopen', task.title, async (reason) => { await rpc('reopen_task', { p_id: id, p_reason: reason }); toast('Görev yeniden açıldı.'); load(); }) }, 'Yeniden aç'));
+      }
+      actions.append(h('button', { class: 'btn ghost', onclick: async () => { await rpc('set_follow', { p_task: id, p_follow: !following }); load(); } }, following ? 'Takibi bırak' : 'Takip et'));
+      if (isAdmin) {
+        const delWrap = h('span', { class: 'row-actions' });
+        const ask = () => delWrap.replaceChildren(h('span', { class: 'hint' }, 'Silinsin mi?'),
+          h('button', { class: 'btn danger sm', onclick: async () => { await rpc('delete_task', { p_id: id }); toast('Görev silindi. Admin panelinden geri alabilirsin.'); go('/'); } }, 'Evet, sil'),
+          h('button', { class: 'btn ghost sm', onclick: () => delWrap.replaceChildren(delBtn) }, 'Hayır'));
+        const delBtn = h('button', { class: 'btn danger sm', onclick: ask }, 'Sil');
+        delWrap.append(delBtn);
+        actions.append(h('span', { class: 'spacer' }), delWrap);
+      }
+    }
+
+    const timeline = [
+      ...activity.filter((a) => a.action !== 'comment.created').map((a) => ({ at: a.created_at, key: 'a' + a.id, who: a.actor.username, body: activityNodes(a) })),
+      ...comments.map((c) => ({ at: c.created_at, key: 'c' + c.id, who: c.author.username, body: ['yorum yazdı', h('span', { class: 'quote' }, richText(c.body))] })),
+    ].sort((x, y) => x.at.localeCompare(y.at));
+
+    root.replaceChildren(
+      h('p', { style: { margin: '0 0 12px' } }, h('a', { href: '#/' }, '← Tüm görevler')),
+      task.deleted_at && h('div', { class: 'alert warn row-actions' }, 'Bu görev silinmiş. Sadece adminler görebilir.', h('span', { class: 'spacer' }),
+        h('button', { class: 'btn sm', onclick: async () => { await rpc('restore_task', { p_id: id }); toast('Görev geri alındı.'); load(); } }, 'Geri al')),
+      h('div', { class: 'detail' },
+        h('section', { class: 'card' },
+          h('div', { class: 'row-actions' }, h('span', { class: `pill s-${task.status}` }, done ? 'Tamamlandı' : 'Açık'), priorityPill(task.priority), tags.map(tagChip)),
+          h('h1', { style: { margin: '12px 0 4px', overflowWrap: 'anywhere' } }, task.title),
+          task.description ? h('p', { class: 'desc' }, task.description) : h('p', { class: 'hint', style: { margin: '8px 0 14px' } }, 'Açıklama yok.'),
+          h('dl', { class: 'kv' },
+            h('dt', null, 'Son tarih'), h('dd', { class: late ? 'late-txt' : '' }, task.due_at ? fmtLong(task.due_at) + (late ? ' · gecikti' : '') : 'Yok'),
+            h('dt', null, 'Oluşturan'), h('dd', null, `@${task.created_by.username} · ${fmtLong(task.created_at)}`),
+            task.updated_by && task.updated_at !== task.created_at && [h('dt', null, 'Son düzenleyen'), h('dd', null, `@${task.updated_by.username} · ${ago(task.updated_at)}`)],
+            done && task.completed_by && [h('dt', null, 'Tamamlayan'), h('dd', null, `@${task.completed_by.username} · ${fmtLong(task.completed_at)}`)],
+            h('dt', null, 'Takipçiler'), h('dd', null, followers.length ? followers.map((f) => '@' + f.username).join(', ') : 'Yok')),
+          done && task.completion_note && h('div', { class: 'done-note' }, h('b', null, 'Tamamlama açıklaması'), task.completion_note),
+          actions,
+          done && !isAdmin && h('p', { class: 'hint', style: { marginTop: '12px' } }, 'Tamamlanan görev kilitlidir. Yeniden açılması gerekiyorsa bir admin ile görüş; yorum yazmaya devam edebilirsin.')),
+        h('section', { class: 'card' }, h('h2', null, 'Geçmiş ve yorumlar'),
+          h('ul', { class: 'tl' }, timeline.map((x) => h('li', null, avatar(x.who, true),
+            h('div', null, h('span', { class: 'who' }, '@' + x.who), ' ', x.body, h('div', { class: 'when', title: fmtLong(x.at) }, ago(x.at)))))),
+          !task.deleted_at && composer(id, load))));
+  }
+
+  // Düzenleme: sürüm kontrollü; başkası araya girdiyse uyarı verilir
+  function startEdit(fromTask) {
+    const base = fromTask || task;
+    editing = { title: base.title, description: base.description, priority: base.priority, dueAt: base.due_at, tagIds: (base.task_tags || []).map((x) => x.tags && x.tags.id).filter(Boolean) };
+    let version = base.version;
+    const f = taskForm(editing);
+    const alert = h('div', { hidden: true });
+    const save = h('button', { class: 'btn' }, 'Kaydet');
+    const doSave = async () => {
+      if (!f.validate()) return;
+      save.disabled = true;
+      try {
+        await rpc('update_task', { p_id: id, p_version: version, p_title: editing.title, p_description: editing.description, p_priority: editing.priority, p_due_at: editing.dueAt, p_tag_ids: editing.tagIds });
+        editing = null;
+        toast('Değişiklikler kaydedildi.');
+        load();
+      } catch (err) {
+        save.disabled = false;
+        if (err.hint === 'VERSION_CONFLICT') {
+          const { data: cur } = await sb.from('tasks').select(TASK_DETAIL_SELECT).eq('id', id).maybeSingle();
+          alert.className = 'alert warn';
+          alert.hidden = false;
+          alert.replaceChildren(h('b', null, err.message), h('div', { style: { margin: '6px 0' } }, 'Kaydedersen onların değişikliğinin üzerine yazarsın.'),
+            h('div', { class: 'row-actions' },
+              h('button', { type: 'button', class: 'btn sm', onclick: () => { version = cur.version; alert.hidden = true; doSave(); } }, 'Yine de benimkini kaydet'),
+              h('button', { type: 'button', class: 'btn ghost sm', onclick: () => { task = cur; startEdit(cur); } }, 'Güncel hali al')));
+        } else {
+          alert.className = 'alert err';
+          alert.hidden = false;
+          alert.textContent = errText(err);
+          if (/Tamamlanmış/.test(err.message)) { editing = null; load(); }
+        }
+      }
+    };
+    const card = root.querySelector('section.card');
+    card.replaceChildren(h('form', { novalidate: true, onsubmit: (e) => { e.preventDefault(); doSave(); } },
+      h('h2', null, 'Görevi düzenle'), alert, f.el,
+      h('div', { class: 'row-actions', style: { justifyContent: 'flex-end' } }, h('button', { type: 'button', class: 'btn ghost', onclick: () => { editing = null; load(); } }, 'Vazgeç'), save)));
+  }
+
+  listeners.tasks.add(load);
+  load();
+  return root;
+}
+
+/* =========================================================
+   Rapor
+   ========================================================= */
+function barChart(data) {
+  if (!data.length) return h('p', { class: 'hint' }, 'Son 30 günde tamamlanan görev yok.');
+  const max = Math.max(...data.map((d) => d.count));
+  const step = max <= 5 ? 1 : max <= 10 ? 2 : max <= 25 ? 5 : 10;
+  const top = Math.ceil(max / step) * step;
+  const L = 84, R = 310, rowH = 28, H = data.length * rowH + 26;
+  const x = (v) => L + ((R - L) * v) / top;
+  let s = `<svg viewBox="0 0 320 ${H}" width="100%" role="img" aria-label="Kişi bazında tamamlanan görev sayısı" font-family="IBM Plex Sans, sans-serif">`;
+  for (let t = 0; t <= top; t += step) s += `<line x1="${x(t)}" y1="4" x2="${x(t)}" y2="${H - 22}" stroke="${t ? '#f1edf8' : '#e6e0f2'}"/><text x="${x(t)}" y="${H - 8}" font-size="11" text-anchor="${t === top ? 'end' : 'middle'}" fill="#6b6380">${t}</text>`;
+  data.forEach((d, i) => {
+    const y = 8 + i * rowH, w = Math.max(x(d.count) - L, 2), inside = w > 26;
+    s += `<text x="${L - 6}" y="${y + 13}" font-size="11.5" text-anchor="end" fill="#1c1530"></text><rect x="${L}" y="${y}" width="${w}" height="18" rx="3" fill="#6b3fd4"/><text x="${inside ? L + w - 5 : L + w + 5}" y="${y + 13}" font-size="11" font-weight="600" text-anchor="${inside ? 'end' : 'start'}" fill="${inside ? '#fff' : '#1c1530'}">${Number(d.count)}</text>`;
+  });
+  const el = svg(s + '</svg>');
+  // Kullanıcı adları metin olarak (güvenli) eklenir
+  el.querySelectorAll('text[text-anchor="end"][font-size="11.5"]').forEach((t, i) => (t.textContent = '@' + data[i].username));
+  return el;
+}
+function trendChart(data) {
+  const max = Math.max(4, ...data.flatMap((d) => [d.opened, d.completed]));
+  const top = Math.ceil(max / 4) * 4;
+  const L = 30, R = 300, T = 12, B = 128, H = 150;
+  const x = (i) => L + 20 + ((R - L - 20) * i) / Math.max(data.length - 1, 1);
+  const y = (v) => B - ((B - T) * v) / top;
+  const pts = (k) => data.map((d, i) => `${x(i)},${y(d[k])}`).join(' ');
+  const fmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short' });
+  const last = data.length - 1;
+  let s = `<svg viewBox="0 0 320 ${H}" width="100%" role="img" aria-label="Haftalık açılan ve tamamlanan görevler" font-family="IBM Plex Sans, sans-serif">`;
+  [0, top / 2, top].forEach((v) => (s += `<line x1="${L}" y1="${y(v)}" x2="${R + 10}" y2="${y(v)}" stroke="${v ? '#f1edf8' : '#e6e0f2'}"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#6b6380">${v}</text>`));
+  s += `<path d="M${x(0)},${B} L${pts('completed').split(' ').join(' L')} L${x(last)},${B} Z" fill="#1f9d63" fill-opacity=".12"/>`;
+  s += `<polyline points="${pts('opened')}" fill="none" stroke="#ff7a1a" stroke-width="2"/><polyline points="${pts('completed')}" fill="none" stroke="#1f9d63" stroke-width="2"/>`;
+  s += `<circle cx="${x(last)}" cy="${y(data[last].opened)}" r="3.5" fill="#ff7a1a"/><circle cx="${x(last)}" cy="${y(data[last].completed)}" r="3.5" fill="#1f9d63"/>`;
+  data.forEach((d, i) => (s += `<text x="${x(i)}" y="${H - 6}" font-size="11" text-anchor="middle" fill="#6b6380">${fmt.format(new Date(d.weekStart))}</text>`));
+  return svg(s + '</svg>');
+}
+function reportPage() {
+  const root = h('div', null, h('div', { class: 'center' }, 'Yükleniyor…'));
+  const load = async () => {
+    try {
+      const r = await rpc('report_summary');
+      const stat = (k, v, cls) => h('div', { class: `stat${cls ? ' ' + cls : ''}` }, h('div', { class: 'k' }, k), h('div', { class: 'v' }, v));
+      root.replaceChildren(
+        h('div', { class: 'page-head' }, h('h1', null, 'Rapor')),
+        h('div', { class: 'stats' },
+          stat('Açık görev', r.open), stat('Geciken', r.overdue, r.overdue ? 'bad' : ''), stat('Bu hafta tamamlanan', r.doneThisWeek, 'ok'),
+          stat('Ort. tamamlama süresi (30 gün)', r.avgCompletionDays === null ? '—' : [Number(r.avgCompletionDays).toLocaleString('tr-TR'), ' ', h('span', { style: { fontSize: '14px', fontWeight: '500' } }, 'gün')])),
+        h('div', { class: 'charts' },
+          h('div', { class: 'stat' }, h('div', { class: 'k', style: { marginBottom: '8px' } }, 'Son 30 günde kim kaç görev tamamladı'), barChart(r.perUser)),
+          h('div', { class: 'stat' }, h('div', { class: 'k', style: { marginBottom: '8px' } }, 'Haftalık açılan ve tamamlanan'), trendChart(r.weekly),
+            h('div', { class: 'legend' }, h('span', null, h('i', { style: { background: 'var(--orange)' } }), 'Açılan'), h('span', null, h('i', { style: { background: 'var(--ok)' } }), 'Tamamlanan')))));
+    } catch (e) {
+      root.replaceChildren(h('div', { class: 'alert err' }, errText(e)));
+    }
+  };
+  listeners.tasks.add(load);
+  load();
+  return root;
+}
+
+/* =========================================================
+   Admin
+   ========================================================= */
+function adminPage() {
+  const body = h('div');
+  let tab = 'users';
+  const tabs = h('div', { class: 'tabs', role: 'tablist' });
+  const drawTabs = () => tabs.replaceChildren(...[['users', 'Kullanıcılar'], ['tags', 'Etiketler'], ['deleted', 'Silinen görevler']].map(([k, l]) =>
+    h('button', { role: 'tab', 'aria-selected': String(tab === k), class: tab === k ? 'on' : '', onclick: () => { tab = k; drawTabs(); show(); } }, l)));
+
+  async function users() {
+    try {
+      const list = await rpc('admin_list_users');
+      const patch = async (u, role, status) => {
+        try { await rpc('admin_set_user', { p_id: u.id, p_role: role, p_status: status }); toast('Kullanıcı güncellendi.'); users(); }
+        catch (e) { toast(errText(e), 'err'); }
+      };
+      body.replaceChildren(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
+        h('thead', null, h('tr', null, ['Kullanıcı', 'E-posta', 'Rol', 'Durum', 'Açtığı', 'Tamamladığı', ''].map((t) => h('th', null, t)))),
+        h('tbody', null, list.map((u) => h('tr', null,
+          h('td', null, h('b', null, '@' + u.username), u.id === state.me.id && h('span', { class: 'hint' }, ' (sen)')),
+          h('td', null, u.email),
+          h('td', null, u.role === 'ADMIN' ? h('span', { class: 'pill s-OPEN' }, 'Admin') : 'Kullanıcı'),
+          h('td', null, u.status === 'ACTIVE' ? h('span', { class: 'pill s-DONE' }, 'Aktif') : h('span', { class: 'pill p-ACIL' }, 'Pasif')),
+          h('td', { class: 'num' }, u.created_count), h('td', { class: 'num' }, u.completed_count),
+          h('td', null, h('div', { class: 'row-actions', style: { flexWrap: 'nowrap' } },
+            h('button', { class: 'btn ghost sm', onclick: () => patch(u, u.role === 'ADMIN' ? 'USER' : 'ADMIN', u.status) }, u.role === 'ADMIN' ? 'Adminliği al' : 'Admin yap'),
+            u.id !== state.me.id && h('button', { class: u.status === 'ACTIVE' ? 'btn danger sm' : 'btn ghost sm', onclick: () => patch(u, u.role, u.status === 'ACTIVE' ? 'DISABLED' : 'ACTIVE') }, u.status === 'ACTIVE' ? 'Pasifleştir' : 'Aktifleştir')))))))));
+    } catch (e) { body.replaceChildren(h('div', { class: 'alert err' }, errText(e))); }
+  }
+
+  async function tags() {
+    const list = await loadTags(true);
+    let name = '', color = TAG_COLORS[0];
+    const err = h('div', { class: 'hint err' });
+    const addBtn = h('button', { class: 'btn', disabled: true }, 'Ekle');
+    const swatches = h('div', { class: 'tagpick', role: 'radiogroup', 'aria-label': 'Etiket rengi', style: { paddingTop: '6px' } });
+    const drawSw = () => swatches.replaceChildren(...TAG_COLORS.map((c) => h('button', { type: 'button', role: 'radio', 'aria-checked': String(c === color), 'aria-label': 'Renk ' + c, class: c === color ? 'on' : '', style: { padding: '4px' }, onclick: () => { color = c; drawSw(); } }, h('i', { style: { background: c, width: '14px', height: '14px' } }))));
+    drawSw();
+    body.replaceChildren(h('div', { class: 'card', style: { maxWidth: '620px' } },
+      h('form', { class: 'row-actions', style: { alignItems: 'flex-start' }, onsubmit: async (e) => {
+        e.preventDefault();
+        try { await rpc('create_tag', { p_name: name, p_color: color }); toast('Etiket eklendi.'); tags(); }
+        catch (x) { err.textContent = errText(x); }
+      } }, h('input', { id: 'tag-name', class: 'input', style: { flex: '1', minWidth: '160px' }, placeholder: 'Yeni etiket adı', maxlength: '24', oninput: (e) => { name = e.target.value; addBtn.disabled = name.trim().length < 2; } }), swatches, addBtn),
+      err,
+      h('div', { class: 'row-actions', style: { marginTop: '16px' } }, list.map((t) => h('span', { class: 'row-actions', style: { gap: '2px' } }, tagChip(t),
+        h('button', { class: 'linkbtn', style: { color: 'var(--bad-ink)', fontSize: '12px', marginRight: '10px' }, 'aria-label': t.name + ' etiketini sil', onclick: async () => { await rpc('delete_tag', { p_id: t.id }); tags(); } }, '✕'))))));
+  }
+
+  async function deleted() {
+    const { data } = await sb.from('tasks').select(TASK_LIST_SELECT).not('deleted_at', 'is', null).order('created_at', { ascending: false });
+    if (!data || !data.length) return body.replaceChildren(h('div', { class: 'empty' }, 'Silinmiş görev yok.'));
+    body.replaceChildren(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
+      h('thead', null, h('tr', null, ['Görev', 'Oluşturan', 'Durum', ''].map((t) => h('th', null, t)))),
+      h('tbody', null, data.map((t) => h('tr', null, h('td', null, h('a', { href: '#/gorev/' + t.id }, t.title)), h('td', null, `@${t.created_by.username} · ${ago(t.created_at)}`),
+        h('td', null, t.status === 'DONE' ? 'Tamamlandı' : 'Açık'),
+        h('td', null, h('button', { class: 'btn ghost sm', onclick: async () => { await rpc('restore_task', { p_id: t.id }); toast('Görev geri alındı.'); deleted(); } }, 'Geri al'))))))));
+  }
+
+  const show = () => (tab === 'users' ? users() : tab === 'tags' ? tags() : deleted());
+  drawTabs();
+  show();
+  return h('div', null, h('div', { class: 'page-head' }, h('h1', null, 'Admin')), tabs, body);
+}
+
+</script>
+</body>
+</html>
